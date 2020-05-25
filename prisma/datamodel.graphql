@@ -4,6 +4,7 @@ type User {
   employeeId: String! @unique
   name: String!
   password: String!
+  sex: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

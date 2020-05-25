@@ -5,6 +5,9 @@ import getUserId from '../utils/getUserId'
 
 const Mutation = {
     async createUser(parent, args, { prisma }, info) {
+        if (args.auth !== 'Eg80949597') {
+            throw new Error('Authentication required.')
+        }
         const employeeIdTaken = await prisma.exists.User({ employeeId: args.data.employeeId })
         const password = await hashPassword(args.data.password)
 

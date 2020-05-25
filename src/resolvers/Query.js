@@ -1,13 +1,14 @@
 import getUserId from '../utils/getUserId'
 const Query = {
     async users(parent, args, { prisma, request}, info) {
-        const userId = getUserId(request, false)
-        const accountType = prisma.query.user({
+        const userId = getUserId(request)
+        const user = await prisma.query.user({
             where: {
                 id: userId
             }
         }, '{ accountType }')
-        if (Object.values(accountType) === 'Admin') {
+
+        if (user.accountType === 'Admin') {
             return prisma.query.users(args.orderBy, info)
         } else {
             throw new Error('Permission denied.')
