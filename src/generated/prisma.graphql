@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun May 24 2020 22:48:30 GMT+0800 (China Standard Time)
+# timestamp: Tue May 26 2020 22:56:13 GMT+0800 (China Standard Time)
 
 type AggregateUser {
   count: Int!
@@ -84,6 +84,7 @@ type User implements Node {
   employeeId: String!
   name: String!
   password: String!
+  sex: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -104,6 +105,7 @@ input UserCreateInput {
   employeeId: String!
   name: String!
   password: String!
+  sex: String!
 }
 
 """An edge in a connection."""
@@ -126,6 +128,8 @@ enum UserOrderByInput {
   name_DESC
   password_ASC
   password_DESC
+  sex_ASC
+  sex_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -138,6 +142,7 @@ type UserPreviousValues {
   employeeId: String!
   name: String!
   password: String!
+  sex: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -184,6 +189,7 @@ input UserUpdateInput {
   employeeId: String
   name: String
   password: String
+  sex: String
 }
 
 input UserUpdateManyMutationInput {
@@ -191,6 +197,7 @@ input UserUpdateManyMutationInput {
   employeeId: String
   name: String
   password: String
+  sex: String
 }
 
 input UserWhereInput {
@@ -402,6 +409,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  sex: String
+
+  """All values that are not equal to given value."""
+  sex_not: String
+
+  """All values that are contained in given list."""
+  sex_in: [String!]
+
+  """All values that are not contained in given list."""
+  sex_not_in: [String!]
+
+  """All values less than the given value."""
+  sex_lt: String
+
+  """All values less than or equal the given value."""
+  sex_lte: String
+
+  """All values greater than the given value."""
+  sex_gt: String
+
+  """All values greater than or equal the given value."""
+  sex_gte: String
+
+  """All values containing the given string."""
+  sex_contains: String
+
+  """All values not containing the given string."""
+  sex_not_contains: String
+
+  """All values starting with the given string."""
+  sex_starts_with: String
+
+  """All values not starting with the given string."""
+  sex_not_starts_with: String
+
+  """All values ending with the given string."""
+  sex_ends_with: String
+
+  """All values not ending with the given string."""
+  sex_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
