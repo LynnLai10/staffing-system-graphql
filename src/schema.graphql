@@ -20,6 +20,7 @@ type AuthPayload {
 input CreateUserInput {
     accountType: String!
     employeeId: String!
+    sex: String!
     name: String!
     password: String!
 }
@@ -27,6 +28,7 @@ input CreateUserInput {
 input UpdateUserInput {
     accountType: String
     employeeId: String
+    sex: String
     name: String
     password: String
 }
@@ -36,6 +38,7 @@ type User {
     accountType: String!
     employeeId: String!
     name: String!
+    sex: String!
     password: String!
     createdAt: String!
     updatedAt: String!
