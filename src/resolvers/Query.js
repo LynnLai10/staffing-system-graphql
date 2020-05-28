@@ -9,7 +9,7 @@ const Query = {
         }, '{ accountType }')
 
         if (user.accountType === 'Admin') {
-            return prisma.query.users(args.orderBy, info)
+            return prisma.query.users({ orderBy: args.orderBy }, info)
         } else {
             throw new Error('Permission denied.')
         }
