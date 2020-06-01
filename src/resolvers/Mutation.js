@@ -3,7 +3,7 @@ import hashPassword from "../utils/hashPassword";
 import generateToken from "../utils/generateToken";
 import getUserId from "../utils/getUserId";
 import defaultFreetime from "../utils/defaultFreetime";
-availability
+
 const Mutation = {
   async createUser(parent, args, { prisma, request }, info) {
     if (args.auth !== "Eg80949597") {
