@@ -1,10 +1,10 @@
-# import UserOrderByInput ScheduleOrderByInput from './generated/prisma.graphql'
+# import UserOrderByInput FreetimeOrderByInput from './generated/prisma.graphql'
 
 type Query {
     users(query: String, orderBy: UserOrderByInput): [User!]!
     me: User!
-    schedules(orderBy: ScheduleOrderByInput): [Schedule!]!
-    mySchedules(orderBy: ScheduleOrderByInput): [Schedule!]!
+    freetimes(orderBy: FreetimeOrderByInput): [Freetime!]!
+    myFreetimes(orderBy: FreetimeOrderByInput): [Freetime!]!
 }
 
 type Mutation {
@@ -12,9 +12,9 @@ type Mutation {
     updateUser(employeeId: String! data: UpdateUserInput!): User!
     deleteUser(employeeId: String!): User!
     login(data: LoginInput!): AuthPayload!
-    createSchedule(employeeId: String!): Schedule!
-    updateSchedule(data: UpdateScheduleInput!): Schedule!
-    resetSchedule(resetItem: String!): Schedule!
+    createFreetime(employeeId: String!): Freetime!
+    updateFreetime(data: UpdateFreetimeInput!): Freetime!
+    resetFreetime(resetItem: String!): Freetime!
     resetAvailability(employeeId: String! isDefault: Boolean!): User!
 }
 
@@ -41,7 +41,7 @@ input UpdateUserInput {
     availability_default: String
 }
 
-input UpdateScheduleInput {
+input UpdateFreetimeInput {
     freetime_next: String
     freetime_default: String
     useDefault: Boolean
@@ -65,7 +65,7 @@ input LoginInput {
     password: String!
 }
 
-type Schedule {
+type Freetime {
     id: ID!
     freetime_next: String!
     freetime_default: String!

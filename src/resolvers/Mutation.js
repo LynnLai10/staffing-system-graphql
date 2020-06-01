@@ -90,9 +90,9 @@ const Mutation = {
       info
     );
   },
-  createSchedule(parent, args, { prisma }, info) {
+  createFreetime(parent, args, { prisma }, info) {
     console.log(args);
-    return prisma.mutation.createSchedule(
+    return prisma.mutation.createFreetime(
       {
         data: {
           freetime_next: defaultFreetime,
@@ -108,9 +108,9 @@ const Mutation = {
       info
     );
   },
-  async updateSchedule(parent, args, { prisma, request }, info) {
+  async updateFreetime(parent, args, { prisma, request }, info) {
     const employeeId = getUserId(request);
-    const mySchedule = await prisma.query.schedules(
+    const myFreetime = await prisma.query.freetimes(
       {
         where: {
           user: {
@@ -120,19 +120,19 @@ const Mutation = {
       },
       '{id}'
     );
-    return prisma.mutation.updateSchedule(
+    return prisma.mutation.updateFreetime(
       {
         where: {
-          id: mySchedule[0].id,
+          id: myFreetime[0].id,
         },
         data: args.data,
       },
       info
     );
   },
-  async resetSchedule(parent, args, { prisma, request }, info) {
+  async resetFreetime(parent, args, { prisma, request }, info) {
     const employeeId = getUserId(request);
-    const mySchedule = await prisma.query.schedules(
+    const myFreetime = await prisma.query.freetimes(
       {
         where: {
           user: {
@@ -146,10 +146,10 @@ const Mutation = {
     args.resetItem === "freetime_next"
       ? data.freetime_next = defaultFreetime 
       : data = { freetime_default: defaultFreetime, useDefault: false }
-    return prisma.mutation.updateSchedule(
+    return prisma.mutation.updateFreetime(
       {
         where: {
-          id: mySchedule[0].id,
+          id: myFreetime[0].id,
         },
         data,
       },

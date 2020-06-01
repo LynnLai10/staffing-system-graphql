@@ -1,7 +1,7 @@
 # source: http://localhost:4466
-# timestamp: Sun May 31 2020 20:07:20 GMT+0800 (China Standard Time)
+# timestamp: Mon Jun 01 2020 23:25:58 GMT+0800 (China Standard Time)
 
-type AggregateSchedule {
+type AggregateFreetime {
   count: Int!
 }
 
@@ -16,78 +16,7 @@ type BatchPayload {
 
 scalar DateTime
 
-"""Raw JSON value"""
-scalar Json
-
-"""
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
-scalar Long
-
-type Mutation {
-  createUser(data: UserCreateInput!): User!
-  createSchedule(data: ScheduleCreateInput!): Schedule!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateSchedule(data: ScheduleUpdateInput!, where: ScheduleWhereUniqueInput!): Schedule
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteSchedule(where: ScheduleWhereUniqueInput!): Schedule
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertSchedule(where: ScheduleWhereUniqueInput!, create: ScheduleCreateInput!, update: ScheduleUpdateInput!): Schedule!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManySchedules(data: ScheduleUpdateManyMutationInput!, where: ScheduleWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManySchedules(where: ScheduleWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
-}
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-"""An object with an ID"""
-interface Node {
-  """The id of the object."""
-  id: ID!
-}
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: String
-}
-
-enum PrismaDatabase {
-  default
-}
-
-type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  schedules(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule]!
-  user(where: UserWhereUniqueInput!): User
-  schedule(where: ScheduleWhereUniqueInput!): Schedule
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  schedulesConnection(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ScheduleConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-}
-
-type Schedule implements Node {
+type Freetime implements Node {
   id: ID!
   freetime_next: String!
   freetime_default: String!
@@ -98,16 +27,16 @@ type Schedule implements Node {
 }
 
 """A connection to a list of items."""
-type ScheduleConnection {
+type FreetimeConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [ScheduleEdge]!
-  aggregate: AggregateSchedule!
+  edges: [FreetimeEdge]!
+  aggregate: AggregateFreetime!
 }
 
-input ScheduleCreateInput {
+input FreetimeCreateInput {
   id: ID
   freetime_next: String!
   freetime_default: String!
@@ -115,12 +44,12 @@ input ScheduleCreateInput {
   user: UserCreateOneWithoutSchedulesInput!
 }
 
-input ScheduleCreateManyWithoutUserInput {
-  create: [ScheduleCreateWithoutUserInput!]
-  connect: [ScheduleWhereUniqueInput!]
+input FreetimeCreateManyWithoutUserInput {
+  create: [FreetimeCreateWithoutUserInput!]
+  connect: [FreetimeWhereUniqueInput!]
 }
 
-input ScheduleCreateWithoutUserInput {
+input FreetimeCreateWithoutUserInput {
   id: ID
   freetime_next: String!
   freetime_default: String!
@@ -128,15 +57,15 @@ input ScheduleCreateWithoutUserInput {
 }
 
 """An edge in a connection."""
-type ScheduleEdge {
+type FreetimeEdge {
   """The item at the end of the edge."""
-  node: Schedule!
+  node: Freetime!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum ScheduleOrderByInput {
+enum FreetimeOrderByInput {
   id_ASC
   id_DESC
   freetime_next_ASC
@@ -151,7 +80,7 @@ enum ScheduleOrderByInput {
   updatedAt_DESC
 }
 
-type SchedulePreviousValues {
+type FreetimePreviousValues {
   id: ID!
   freetime_next: String!
   freetime_default: String!
@@ -160,15 +89,15 @@ type SchedulePreviousValues {
   updatedAt: DateTime!
 }
 
-input ScheduleScalarWhereInput {
+input FreetimeScalarWhereInput {
   """Logical AND on all given filters."""
-  AND: [ScheduleScalarWhereInput!]
+  AND: [FreetimeScalarWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [ScheduleScalarWhereInput!]
+  OR: [FreetimeScalarWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [ScheduleScalarWhereInput!]
+  NOT: [FreetimeScalarWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -339,22 +268,22 @@ input ScheduleScalarWhereInput {
   updatedAt_gte: DateTime
 }
 
-type ScheduleSubscriptionPayload {
+type FreetimeSubscriptionPayload {
   mutation: MutationType!
-  node: Schedule
+  node: Freetime
   updatedFields: [String!]
-  previousValues: SchedulePreviousValues
+  previousValues: FreetimePreviousValues
 }
 
-input ScheduleSubscriptionWhereInput {
+input FreetimeSubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [ScheduleSubscriptionWhereInput!]
+  AND: [FreetimeSubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [ScheduleSubscriptionWhereInput!]
+  OR: [FreetimeSubscriptionWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [ScheduleSubscriptionWhereInput!]
+  NOT: [FreetimeSubscriptionWhereInput!]
 
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
@@ -373,71 +302,71 @@ input ScheduleSubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: ScheduleWhereInput
+  node: FreetimeWhereInput
 }
 
-input ScheduleUpdateInput {
+input FreetimeUpdateInput {
   freetime_next: String
   freetime_default: String
   useDefault: Boolean
   user: UserUpdateOneRequiredWithoutSchedulesInput
 }
 
-input ScheduleUpdateManyDataInput {
+input FreetimeUpdateManyDataInput {
   freetime_next: String
   freetime_default: String
   useDefault: Boolean
 }
 
-input ScheduleUpdateManyMutationInput {
+input FreetimeUpdateManyMutationInput {
   freetime_next: String
   freetime_default: String
   useDefault: Boolean
 }
 
-input ScheduleUpdateManyWithoutUserInput {
-  create: [ScheduleCreateWithoutUserInput!]
-  connect: [ScheduleWhereUniqueInput!]
-  set: [ScheduleWhereUniqueInput!]
-  disconnect: [ScheduleWhereUniqueInput!]
-  delete: [ScheduleWhereUniqueInput!]
-  update: [ScheduleUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [ScheduleUpdateManyWithWhereNestedInput!]
-  deleteMany: [ScheduleScalarWhereInput!]
-  upsert: [ScheduleUpsertWithWhereUniqueWithoutUserInput!]
+input FreetimeUpdateManyWithoutUserInput {
+  create: [FreetimeCreateWithoutUserInput!]
+  connect: [FreetimeWhereUniqueInput!]
+  set: [FreetimeWhereUniqueInput!]
+  disconnect: [FreetimeWhereUniqueInput!]
+  delete: [FreetimeWhereUniqueInput!]
+  update: [FreetimeUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [FreetimeUpdateManyWithWhereNestedInput!]
+  deleteMany: [FreetimeScalarWhereInput!]
+  upsert: [FreetimeUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input ScheduleUpdateManyWithWhereNestedInput {
-  where: ScheduleScalarWhereInput!
-  data: ScheduleUpdateManyDataInput!
+input FreetimeUpdateManyWithWhereNestedInput {
+  where: FreetimeScalarWhereInput!
+  data: FreetimeUpdateManyDataInput!
 }
 
-input ScheduleUpdateWithoutUserDataInput {
+input FreetimeUpdateWithoutUserDataInput {
   freetime_next: String
   freetime_default: String
   useDefault: Boolean
 }
 
-input ScheduleUpdateWithWhereUniqueWithoutUserInput {
-  where: ScheduleWhereUniqueInput!
-  data: ScheduleUpdateWithoutUserDataInput!
+input FreetimeUpdateWithWhereUniqueWithoutUserInput {
+  where: FreetimeWhereUniqueInput!
+  data: FreetimeUpdateWithoutUserDataInput!
 }
 
-input ScheduleUpsertWithWhereUniqueWithoutUserInput {
-  where: ScheduleWhereUniqueInput!
-  update: ScheduleUpdateWithoutUserDataInput!
-  create: ScheduleCreateWithoutUserInput!
+input FreetimeUpsertWithWhereUniqueWithoutUserInput {
+  where: FreetimeWhereUniqueInput!
+  update: FreetimeUpdateWithoutUserDataInput!
+  create: FreetimeCreateWithoutUserInput!
 }
 
-input ScheduleWhereInput {
+input FreetimeWhereInput {
   """Logical AND on all given filters."""
-  AND: [ScheduleWhereInput!]
+  AND: [FreetimeWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [ScheduleWhereInput!]
+  OR: [FreetimeWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [ScheduleWhereInput!]
+  NOT: [FreetimeWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -609,13 +538,84 @@ input ScheduleWhereInput {
   user: UserWhereInput
 }
 
-input ScheduleWhereUniqueInput {
+input FreetimeWhereUniqueInput {
   id: ID
+}
+
+"""Raw JSON value"""
+scalar Json
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  createFreetime(data: FreetimeCreateInput!): Freetime!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateFreetime(data: FreetimeUpdateInput!, where: FreetimeWhereUniqueInput!): Freetime
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteFreetime(where: FreetimeWhereUniqueInput!): Freetime
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertFreetime(where: FreetimeWhereUniqueInput!, create: FreetimeCreateInput!, update: FreetimeUpdateInput!): Freetime!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyFreetimes(data: FreetimeUpdateManyMutationInput!, where: FreetimeWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyFreetimes(where: FreetimeWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+enum PrismaDatabase {
+  default
+}
+
+type Query {
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime]!
+  user(where: UserWhereUniqueInput!): User
+  freetime(where: FreetimeWhereUniqueInput!): Freetime
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  freetimesConnection(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FreetimeConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
 }
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  schedule(where: ScheduleSubscriptionWhereInput): ScheduleSubscriptionPayload
+  freetime(where: FreetimeSubscriptionWhereInput): FreetimeSubscriptionPayload
 }
 
 type User implements Node {
@@ -627,9 +627,9 @@ type User implements Node {
   sex: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  schedules(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule!]
-  availability_next: String
-  availability_default: String
+  schedules(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime!]
+  hiredate: DateTime
+  permanentStaff: Boolean
 }
 
 """A connection to a list of items."""
@@ -649,9 +649,9 @@ input UserCreateInput {
   name: String!
   password: String!
   sex: String!
-  availability_next: String
-  availability_default: String
-  schedules: ScheduleCreateManyWithoutUserInput
+  hiredate: DateTime
+  permanentStaff: Boolean
+  schedules: FreetimeCreateManyWithoutUserInput
 }
 
 input UserCreateOneWithoutSchedulesInput {
@@ -666,8 +666,8 @@ input UserCreateWithoutSchedulesInput {
   name: String!
   password: String!
   sex: String!
-  availability_next: String
-  availability_default: String
+  hiredate: DateTime
+  permanentStaff: Boolean
 }
 
 """An edge in a connection."""
@@ -696,10 +696,10 @@ enum UserOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-  availability_next_ASC
-  availability_next_DESC
-  availability_default_ASC
-  availability_default_DESC
+  hiredate_ASC
+  hiredate_DESC
+  permanentStaff_ASC
+  permanentStaff_DESC
 }
 
 type UserPreviousValues {
@@ -711,8 +711,8 @@ type UserPreviousValues {
   sex: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  availability_next: String
-  availability_default: String
+  hiredate: DateTime
+  permanentStaff: Boolean
 }
 
 type UserSubscriptionPayload {
@@ -758,9 +758,9 @@ input UserUpdateInput {
   name: String
   password: String
   sex: String
-  availability_next: String
-  availability_default: String
-  schedules: ScheduleUpdateManyWithoutUserInput
+  hiredate: DateTime
+  permanentStaff: Boolean
+  schedules: FreetimeUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -769,8 +769,8 @@ input UserUpdateManyMutationInput {
   name: String
   password: String
   sex: String
-  availability_next: String
-  availability_default: String
+  hiredate: DateTime
+  permanentStaff: Boolean
 }
 
 input UserUpdateOneRequiredWithoutSchedulesInput {
@@ -786,8 +786,8 @@ input UserUpdateWithoutSchedulesDataInput {
   name: String
   password: String
   sex: String
-  availability_next: String
-  availability_default: String
+  hiredate: DateTime
+  permanentStaff: Boolean
 }
 
 input UserUpsertWithoutSchedulesInput {
@@ -1088,89 +1088,35 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
-  availability_next: String
+  hiredate: DateTime
 
   """All values that are not equal to given value."""
-  availability_next_not: String
+  hiredate_not: DateTime
 
   """All values that are contained in given list."""
-  availability_next_in: [String!]
+  hiredate_in: [DateTime!]
 
   """All values that are not contained in given list."""
-  availability_next_not_in: [String!]
+  hiredate_not_in: [DateTime!]
 
   """All values less than the given value."""
-  availability_next_lt: String
+  hiredate_lt: DateTime
 
   """All values less than or equal the given value."""
-  availability_next_lte: String
+  hiredate_lte: DateTime
 
   """All values greater than the given value."""
-  availability_next_gt: String
+  hiredate_gt: DateTime
 
   """All values greater than or equal the given value."""
-  availability_next_gte: String
-
-  """All values containing the given string."""
-  availability_next_contains: String
-
-  """All values not containing the given string."""
-  availability_next_not_contains: String
-
-  """All values starting with the given string."""
-  availability_next_starts_with: String
-
-  """All values not starting with the given string."""
-  availability_next_not_starts_with: String
-
-  """All values ending with the given string."""
-  availability_next_ends_with: String
-
-  """All values not ending with the given string."""
-  availability_next_not_ends_with: String
-  availability_default: String
+  hiredate_gte: DateTime
+  permanentStaff: Boolean
 
   """All values that are not equal to given value."""
-  availability_default_not: String
-
-  """All values that are contained in given list."""
-  availability_default_in: [String!]
-
-  """All values that are not contained in given list."""
-  availability_default_not_in: [String!]
-
-  """All values less than the given value."""
-  availability_default_lt: String
-
-  """All values less than or equal the given value."""
-  availability_default_lte: String
-
-  """All values greater than the given value."""
-  availability_default_gt: String
-
-  """All values greater than or equal the given value."""
-  availability_default_gte: String
-
-  """All values containing the given string."""
-  availability_default_contains: String
-
-  """All values not containing the given string."""
-  availability_default_not_contains: String
-
-  """All values starting with the given string."""
-  availability_default_starts_with: String
-
-  """All values not starting with the given string."""
-  availability_default_not_starts_with: String
-
-  """All values ending with the given string."""
-  availability_default_ends_with: String
-
-  """All values not ending with the given string."""
-  availability_default_not_ends_with: String
-  schedules_every: ScheduleWhereInput
-  schedules_some: ScheduleWhereInput
-  schedules_none: ScheduleWhereInput
+  permanentStaff_not: Boolean
+  schedules_every: FreetimeWhereInput
+  schedules_some: FreetimeWhereInput
+  schedules_none: FreetimeWhereInput
 }
 
 input UserWhereUniqueInput {

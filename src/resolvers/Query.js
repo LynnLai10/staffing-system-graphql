@@ -21,12 +21,12 @@ const Query = {
             }
         })
     },
-    schedules(parent, args, { prisma }, info) {
-        return prisma.query.schedules({ orderBy: args.orderBy }, info)
+    freetimes(parent, args, { prisma }, info) {
+        return prisma.query.freetimes({ orderBy: args.orderBy }, info)
     },
-    mySchedules(parent, args, { prisma, request }, info) {
+    myFreetimes(parent, args, { prisma, request }, info) {
         const employeeId = getUserId(request)
-        return prisma.query.schedules({
+        return prisma.query.freetimes({
             orderBy: args.orderBy,
             where: {
                 user: {
