@@ -21,6 +21,7 @@ const Query = {
             }
         })
     },
+    //----------------------  Freetime  -------------------------//
     freetimes(parent, args, { prisma }, info) {
         return prisma.query.freetimes({ orderBy: args.orderBy }, info)
     },
@@ -32,6 +33,30 @@ const Query = {
                 user: {
                     employeeId
                 }
+            }
+        }, info)
+    },
+    //----------------------  Schedule  -------------------------//
+    schedule_interval(parent, args, { prisma, request }, info) {
+        const { start, end } = args
+        return prisma.query.schedule_intervals({
+            where: {
+                start,
+                end
+            }
+        }, info)
+    },
+    schedule(parent, args, { prisma, request }, info) {
+        return prisma.query.schedule({
+            where: {
+                schedule_No: args.schedule_No
+            }
+        }, info)
+    },
+    schedule_day(parent, args, { prisma, request }, info) {
+        return prisma.query.schedule_Day({
+            where: {
+                day_No: args.day_No
             }
         }, info)
     }

@@ -90,6 +90,7 @@ const Mutation = {
       info
     );
   },
+  //----------------------  Freetime  -------------------------//
   createFreetime(parent, args, { prisma }, info) {
     console.log(args);
     return prisma.mutation.createFreetime(
@@ -156,6 +157,75 @@ const Mutation = {
       info
     );
   },
+  //---------------------------  Schedule ----------------------------//
+  
+  async createSchedule(parent, args, {prisma, request}, info) {
+    return prisma.mutation.createSchedule({
+      data: {
+        schedule_No: args.schedule_No
+      }
+    }, info)
+  },
+  async createSchedule_Day(parent, args, {prisma, request}, info) {
+    for (let i=0; i<14; i++) {
+       prisma.mutation.createSchedule_Day({
+        data: {
+          day_No: `${args.schedule_No}-${i.toString()}`,
+          schedule: {
+            connect: {
+              schedule_No: args.schedule_No
+            }
+          }
+        }
+      })
+    }
+  },
+  async createSchedule_Interval(parent, args, {prisma, request}, info) {
+    const { start, end } = args 
+    const interval_No = start.toString() + end.toString()
+    return prisma.mutation.createSchedule_Interval({
+      data: {
+        interval_No,
+        start,
+        end
+      }
+    }, info)
+  },
+  async createSchedule_Staff(parent, args, {prisma, request}, info) {
+    const { day_No, employeeId, position, interval_No, schedule_No} = args.data
+    let data = {
+      schedule_day: {
+        connect: {
+          day_No
+        }
+      },
+      schedule: {
+        connect: {
+          schedule_No
+        }
+      },
+      position,
+      schedule_interval: {
+        connect: {
+          interval_No
+        }
+      }
+    }
+    if (employeeId) {
+      data = {
+        ...data,
+        staff: {
+          connect: {
+            employeeId
+          }
+        }
+      }
+    }
+    return prisma.mutation.createSchedule_Staff({
+      data
+    }, info)
+  }
+
 };
 
 export { Mutation as default };
