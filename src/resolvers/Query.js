@@ -37,15 +37,6 @@ const Query = {
         }, info)
     },
     //----------------------  Schedule  -------------------------//
-    schedule_interval(parent, args, { prisma, request }, info) {
-        const { start, end } = args
-        return prisma.query.schedule_intervals({
-            where: {
-                start,
-                end
-            }
-        }, info)
-    },
     schedule(parent, args, { prisma, request }, info) {
         return prisma.query.schedule({
             where: {
@@ -57,6 +48,15 @@ const Query = {
         return prisma.query.schedule_Day({
             where: {
                 day_No: args.day_No
+            }
+        }, info)
+    },
+    schedule_interval(parent, args, { prisma, request }, info) {
+        const { start, end } = args
+        return prisma.query.schedule_intervals({
+            where: {
+                start,
+                end
             }
         }, info)
     }

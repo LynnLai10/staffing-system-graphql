@@ -48,6 +48,6 @@ type Schedule_Staff {
 type Schedule_Interval {
   id: ID! @id
   interval_No: String! @unique
-  start: Int!
-  end: Int!
+  start: String!
+  end: String!
 }

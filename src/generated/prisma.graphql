@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Jun 04 2020 15:37:57 GMT+0800 (China Standard Time)
+# timestamp: Sat Jun 06 2020 15:00:19 GMT+0800 (China Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -9,7 +9,7 @@ type AggregateSchedule {
   count: Int!
 }
 
-type AggregateSchedule_Daily {
+type AggregateSchedule_Day {
   count: Int!
 }
 
@@ -570,37 +570,37 @@ scalar Long
 type Mutation {
   createFreetime(data: FreetimeCreateInput!): Freetime!
   createSchedule(data: ScheduleCreateInput!): Schedule!
-  createSchedule_Daily(data: Schedule_DailyCreateInput!): Schedule_Daily!
+  createSchedule_Day(data: Schedule_DayCreateInput!): Schedule_Day!
   createSchedule_Staff(data: Schedule_StaffCreateInput!): Schedule_Staff!
   createUser(data: UserCreateInput!): User!
   createSchedule_Interval(data: Schedule_IntervalCreateInput!): Schedule_Interval!
   updateFreetime(data: FreetimeUpdateInput!, where: FreetimeWhereUniqueInput!): Freetime
   updateSchedule(data: ScheduleUpdateInput!, where: ScheduleWhereUniqueInput!): Schedule
-  updateSchedule_Daily(data: Schedule_DailyUpdateInput!, where: Schedule_DailyWhereUniqueInput!): Schedule_Daily
+  updateSchedule_Day(data: Schedule_DayUpdateInput!, where: Schedule_DayWhereUniqueInput!): Schedule_Day
   updateSchedule_Staff(data: Schedule_StaffUpdateInput!, where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSchedule_Interval(data: Schedule_IntervalUpdateInput!, where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
   deleteFreetime(where: FreetimeWhereUniqueInput!): Freetime
   deleteSchedule(where: ScheduleWhereUniqueInput!): Schedule
-  deleteSchedule_Daily(where: Schedule_DailyWhereUniqueInput!): Schedule_Daily
+  deleteSchedule_Day(where: Schedule_DayWhereUniqueInput!): Schedule_Day
   deleteSchedule_Staff(where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSchedule_Interval(where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
   upsertFreetime(where: FreetimeWhereUniqueInput!, create: FreetimeCreateInput!, update: FreetimeUpdateInput!): Freetime!
   upsertSchedule(where: ScheduleWhereUniqueInput!, create: ScheduleCreateInput!, update: ScheduleUpdateInput!): Schedule!
-  upsertSchedule_Daily(where: Schedule_DailyWhereUniqueInput!, create: Schedule_DailyCreateInput!, update: Schedule_DailyUpdateInput!): Schedule_Daily!
+  upsertSchedule_Day(where: Schedule_DayWhereUniqueInput!, create: Schedule_DayCreateInput!, update: Schedule_DayUpdateInput!): Schedule_Day!
   upsertSchedule_Staff(where: Schedule_StaffWhereUniqueInput!, create: Schedule_StaffCreateInput!, update: Schedule_StaffUpdateInput!): Schedule_Staff!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSchedule_Interval(where: Schedule_IntervalWhereUniqueInput!, create: Schedule_IntervalCreateInput!, update: Schedule_IntervalUpdateInput!): Schedule_Interval!
   updateManyFreetimes(data: FreetimeUpdateManyMutationInput!, where: FreetimeWhereInput): BatchPayload!
   updateManySchedules(data: ScheduleUpdateManyMutationInput!, where: ScheduleWhereInput): BatchPayload!
-  updateManySchedule_Dailies(data: Schedule_DailyUpdateManyMutationInput!, where: Schedule_DailyWhereInput): BatchPayload!
+  updateManySchedule_Days(data: Schedule_DayUpdateManyMutationInput!, where: Schedule_DayWhereInput): BatchPayload!
   updateManySchedule_Staffs(data: Schedule_StaffUpdateManyMutationInput!, where: Schedule_StaffWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManySchedule_Intervals(data: Schedule_IntervalUpdateManyMutationInput!, where: Schedule_IntervalWhereInput): BatchPayload!
   deleteManyFreetimes(where: FreetimeWhereInput): BatchPayload!
   deleteManySchedules(where: ScheduleWhereInput): BatchPayload!
-  deleteManySchedule_Dailies(where: Schedule_DailyWhereInput): BatchPayload!
+  deleteManySchedule_Days(where: Schedule_DayWhereInput): BatchPayload!
   deleteManySchedule_Staffs(where: Schedule_StaffWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySchedule_Intervals(where: Schedule_IntervalWhereInput): BatchPayload!
@@ -641,19 +641,19 @@ enum PrismaDatabase {
 type Query {
   freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime]!
   schedules(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule]!
-  schedule_Dailies(where: Schedule_DailyWhereInput, orderBy: Schedule_DailyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Daily]!
+  schedule_Days(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Day]!
   schedule_Staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   schedule_Intervals(where: Schedule_IntervalWhereInput, orderBy: Schedule_IntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Interval]!
   freetime(where: FreetimeWhereUniqueInput!): Freetime
   schedule(where: ScheduleWhereUniqueInput!): Schedule
-  schedule_Daily(where: Schedule_DailyWhereUniqueInput!): Schedule_Daily
+  schedule_Day(where: Schedule_DayWhereUniqueInput!): Schedule_Day
   schedule_Staff(where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
   user(where: UserWhereUniqueInput!): User
   schedule_Interval(where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
   freetimesConnection(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FreetimeConnection!
   schedulesConnection(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ScheduleConnection!
-  schedule_DailiesConnection(where: Schedule_DailyWhereInput, orderBy: Schedule_DailyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_DailyConnection!
+  schedule_DaysConnection(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_DayConnection!
   schedule_StaffsConnection(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_StaffConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   schedule_IntervalsConnection(where: Schedule_IntervalWhereInput, orderBy: Schedule_IntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_IntervalConnection!
@@ -668,86 +668,86 @@ type Query {
 type Schedule implements Node {
   id: ID!
   schedule_No: String!
-  schedule_dailys(where: Schedule_DailyWhereInput, orderBy: Schedule_DailyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Daily!]
+  schedule_days(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Day!]
   schedule_staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff!]
 }
 
-type Schedule_Daily implements Node {
+type Schedule_Day implements Node {
   id: ID!
-  daily_No: String!
+  day_No: String!
   schedule_staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff!]
   schedule: Schedule!
 }
 
 """A connection to a list of items."""
-type Schedule_DailyConnection {
+type Schedule_DayConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [Schedule_DailyEdge]!
-  aggregate: AggregateSchedule_Daily!
+  edges: [Schedule_DayEdge]!
+  aggregate: AggregateSchedule_Day!
 }
 
-input Schedule_DailyCreateInput {
+input Schedule_DayCreateInput {
   id: ID
-  daily_No: String!
-  schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dailyInput
-  schedule: ScheduleCreateOneWithoutSchedule_dailysInput!
+  day_No: String!
+  schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dayInput
+  schedule: ScheduleCreateOneWithoutSchedule_daysInput!
 }
 
-input Schedule_DailyCreateManyWithoutScheduleInput {
-  create: [Schedule_DailyCreateWithoutScheduleInput!]
-  connect: [Schedule_DailyWhereUniqueInput!]
+input Schedule_DayCreateManyWithoutScheduleInput {
+  create: [Schedule_DayCreateWithoutScheduleInput!]
+  connect: [Schedule_DayWhereUniqueInput!]
 }
 
-input Schedule_DailyCreateOneWithoutSchedule_staffsInput {
-  create: Schedule_DailyCreateWithoutSchedule_staffsInput
-  connect: Schedule_DailyWhereUniqueInput
+input Schedule_DayCreateOneWithoutSchedule_staffsInput {
+  create: Schedule_DayCreateWithoutSchedule_staffsInput
+  connect: Schedule_DayWhereUniqueInput
 }
 
-input Schedule_DailyCreateWithoutSchedule_staffsInput {
+input Schedule_DayCreateWithoutSchedule_staffsInput {
   id: ID
-  daily_No: String!
-  schedule: ScheduleCreateOneWithoutSchedule_dailysInput!
+  day_No: String!
+  schedule: ScheduleCreateOneWithoutSchedule_daysInput!
 }
 
-input Schedule_DailyCreateWithoutScheduleInput {
+input Schedule_DayCreateWithoutScheduleInput {
   id: ID
-  daily_No: String!
-  schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dailyInput
+  day_No: String!
+  schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dayInput
 }
 
 """An edge in a connection."""
-type Schedule_DailyEdge {
+type Schedule_DayEdge {
   """The item at the end of the edge."""
-  node: Schedule_Daily!
+  node: Schedule_Day!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum Schedule_DailyOrderByInput {
+enum Schedule_DayOrderByInput {
   id_ASC
   id_DESC
-  daily_No_ASC
-  daily_No_DESC
+  day_No_ASC
+  day_No_DESC
 }
 
-type Schedule_DailyPreviousValues {
+type Schedule_DayPreviousValues {
   id: ID!
-  daily_No: String!
+  day_No: String!
 }
 
-input Schedule_DailyScalarWhereInput {
+input Schedule_DayScalarWhereInput {
   """Logical AND on all given filters."""
-  AND: [Schedule_DailyScalarWhereInput!]
+  AND: [Schedule_DayScalarWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [Schedule_DailyScalarWhereInput!]
+  OR: [Schedule_DayScalarWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [Schedule_DailyScalarWhereInput!]
+  NOT: [Schedule_DayScalarWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -788,64 +788,64 @@ input Schedule_DailyScalarWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  daily_No: String
+  day_No: String
 
   """All values that are not equal to given value."""
-  daily_No_not: String
+  day_No_not: String
 
   """All values that are contained in given list."""
-  daily_No_in: [String!]
+  day_No_in: [String!]
 
   """All values that are not contained in given list."""
-  daily_No_not_in: [String!]
+  day_No_not_in: [String!]
 
   """All values less than the given value."""
-  daily_No_lt: String
+  day_No_lt: String
 
   """All values less than or equal the given value."""
-  daily_No_lte: String
+  day_No_lte: String
 
   """All values greater than the given value."""
-  daily_No_gt: String
+  day_No_gt: String
 
   """All values greater than or equal the given value."""
-  daily_No_gte: String
+  day_No_gte: String
 
   """All values containing the given string."""
-  daily_No_contains: String
+  day_No_contains: String
 
   """All values not containing the given string."""
-  daily_No_not_contains: String
+  day_No_not_contains: String
 
   """All values starting with the given string."""
-  daily_No_starts_with: String
+  day_No_starts_with: String
 
   """All values not starting with the given string."""
-  daily_No_not_starts_with: String
+  day_No_not_starts_with: String
 
   """All values ending with the given string."""
-  daily_No_ends_with: String
+  day_No_ends_with: String
 
   """All values not ending with the given string."""
-  daily_No_not_ends_with: String
+  day_No_not_ends_with: String
 }
 
-type Schedule_DailySubscriptionPayload {
+type Schedule_DaySubscriptionPayload {
   mutation: MutationType!
-  node: Schedule_Daily
+  node: Schedule_Day
   updatedFields: [String!]
-  previousValues: Schedule_DailyPreviousValues
+  previousValues: Schedule_DayPreviousValues
 }
 
-input Schedule_DailySubscriptionWhereInput {
+input Schedule_DaySubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [Schedule_DailySubscriptionWhereInput!]
+  AND: [Schedule_DaySubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [Schedule_DailySubscriptionWhereInput!]
+  OR: [Schedule_DaySubscriptionWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [Schedule_DailySubscriptionWhereInput!]
+  NOT: [Schedule_DaySubscriptionWhereInput!]
 
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
@@ -864,82 +864,82 @@ input Schedule_DailySubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: Schedule_DailyWhereInput
+  node: Schedule_DayWhereInput
 }
 
-input Schedule_DailyUpdateInput {
-  daily_No: String
-  schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dailyInput
-  schedule: ScheduleUpdateOneRequiredWithoutSchedule_dailysInput
+input Schedule_DayUpdateInput {
+  day_No: String
+  schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dayInput
+  schedule: ScheduleUpdateOneRequiredWithoutSchedule_daysInput
 }
 
-input Schedule_DailyUpdateManyDataInput {
-  daily_No: String
+input Schedule_DayUpdateManyDataInput {
+  day_No: String
 }
 
-input Schedule_DailyUpdateManyMutationInput {
-  daily_No: String
+input Schedule_DayUpdateManyMutationInput {
+  day_No: String
 }
 
-input Schedule_DailyUpdateManyWithoutScheduleInput {
-  create: [Schedule_DailyCreateWithoutScheduleInput!]
-  connect: [Schedule_DailyWhereUniqueInput!]
-  set: [Schedule_DailyWhereUniqueInput!]
-  disconnect: [Schedule_DailyWhereUniqueInput!]
-  delete: [Schedule_DailyWhereUniqueInput!]
-  update: [Schedule_DailyUpdateWithWhereUniqueWithoutScheduleInput!]
-  updateMany: [Schedule_DailyUpdateManyWithWhereNestedInput!]
-  deleteMany: [Schedule_DailyScalarWhereInput!]
-  upsert: [Schedule_DailyUpsertWithWhereUniqueWithoutScheduleInput!]
+input Schedule_DayUpdateManyWithoutScheduleInput {
+  create: [Schedule_DayCreateWithoutScheduleInput!]
+  connect: [Schedule_DayWhereUniqueInput!]
+  set: [Schedule_DayWhereUniqueInput!]
+  disconnect: [Schedule_DayWhereUniqueInput!]
+  delete: [Schedule_DayWhereUniqueInput!]
+  update: [Schedule_DayUpdateWithWhereUniqueWithoutScheduleInput!]
+  updateMany: [Schedule_DayUpdateManyWithWhereNestedInput!]
+  deleteMany: [Schedule_DayScalarWhereInput!]
+  upsert: [Schedule_DayUpsertWithWhereUniqueWithoutScheduleInput!]
 }
 
-input Schedule_DailyUpdateManyWithWhereNestedInput {
-  where: Schedule_DailyScalarWhereInput!
-  data: Schedule_DailyUpdateManyDataInput!
+input Schedule_DayUpdateManyWithWhereNestedInput {
+  where: Schedule_DayScalarWhereInput!
+  data: Schedule_DayUpdateManyDataInput!
 }
 
-input Schedule_DailyUpdateOneRequiredWithoutSchedule_staffsInput {
-  create: Schedule_DailyCreateWithoutSchedule_staffsInput
-  connect: Schedule_DailyWhereUniqueInput
-  update: Schedule_DailyUpdateWithoutSchedule_staffsDataInput
-  upsert: Schedule_DailyUpsertWithoutSchedule_staffsInput
+input Schedule_DayUpdateOneRequiredWithoutSchedule_staffsInput {
+  create: Schedule_DayCreateWithoutSchedule_staffsInput
+  connect: Schedule_DayWhereUniqueInput
+  update: Schedule_DayUpdateWithoutSchedule_staffsDataInput
+  upsert: Schedule_DayUpsertWithoutSchedule_staffsInput
 }
 
-input Schedule_DailyUpdateWithoutSchedule_staffsDataInput {
-  daily_No: String
-  schedule: ScheduleUpdateOneRequiredWithoutSchedule_dailysInput
+input Schedule_DayUpdateWithoutSchedule_staffsDataInput {
+  day_No: String
+  schedule: ScheduleUpdateOneRequiredWithoutSchedule_daysInput
 }
 
-input Schedule_DailyUpdateWithoutScheduleDataInput {
-  daily_No: String
-  schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dailyInput
+input Schedule_DayUpdateWithoutScheduleDataInput {
+  day_No: String
+  schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dayInput
 }
 
-input Schedule_DailyUpdateWithWhereUniqueWithoutScheduleInput {
-  where: Schedule_DailyWhereUniqueInput!
-  data: Schedule_DailyUpdateWithoutScheduleDataInput!
+input Schedule_DayUpdateWithWhereUniqueWithoutScheduleInput {
+  where: Schedule_DayWhereUniqueInput!
+  data: Schedule_DayUpdateWithoutScheduleDataInput!
 }
 
-input Schedule_DailyUpsertWithoutSchedule_staffsInput {
-  update: Schedule_DailyUpdateWithoutSchedule_staffsDataInput!
-  create: Schedule_DailyCreateWithoutSchedule_staffsInput!
+input Schedule_DayUpsertWithoutSchedule_staffsInput {
+  update: Schedule_DayUpdateWithoutSchedule_staffsDataInput!
+  create: Schedule_DayCreateWithoutSchedule_staffsInput!
 }
 
-input Schedule_DailyUpsertWithWhereUniqueWithoutScheduleInput {
-  where: Schedule_DailyWhereUniqueInput!
-  update: Schedule_DailyUpdateWithoutScheduleDataInput!
-  create: Schedule_DailyCreateWithoutScheduleInput!
+input Schedule_DayUpsertWithWhereUniqueWithoutScheduleInput {
+  where: Schedule_DayWhereUniqueInput!
+  update: Schedule_DayUpdateWithoutScheduleDataInput!
+  create: Schedule_DayCreateWithoutScheduleInput!
 }
 
-input Schedule_DailyWhereInput {
+input Schedule_DayWhereInput {
   """Logical AND on all given filters."""
-  AND: [Schedule_DailyWhereInput!]
+  AND: [Schedule_DayWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [Schedule_DailyWhereInput!]
+  OR: [Schedule_DayWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [Schedule_DailyWhereInput!]
+  NOT: [Schedule_DayWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -980,55 +980,55 @@ input Schedule_DailyWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  daily_No: String
+  day_No: String
 
   """All values that are not equal to given value."""
-  daily_No_not: String
+  day_No_not: String
 
   """All values that are contained in given list."""
-  daily_No_in: [String!]
+  day_No_in: [String!]
 
   """All values that are not contained in given list."""
-  daily_No_not_in: [String!]
+  day_No_not_in: [String!]
 
   """All values less than the given value."""
-  daily_No_lt: String
+  day_No_lt: String
 
   """All values less than or equal the given value."""
-  daily_No_lte: String
+  day_No_lte: String
 
   """All values greater than the given value."""
-  daily_No_gt: String
+  day_No_gt: String
 
   """All values greater than or equal the given value."""
-  daily_No_gte: String
+  day_No_gte: String
 
   """All values containing the given string."""
-  daily_No_contains: String
+  day_No_contains: String
 
   """All values not containing the given string."""
-  daily_No_not_contains: String
+  day_No_not_contains: String
 
   """All values starting with the given string."""
-  daily_No_starts_with: String
+  day_No_starts_with: String
 
   """All values not starting with the given string."""
-  daily_No_not_starts_with: String
+  day_No_not_starts_with: String
 
   """All values ending with the given string."""
-  daily_No_ends_with: String
+  day_No_ends_with: String
 
   """All values not ending with the given string."""
-  daily_No_not_ends_with: String
+  day_No_not_ends_with: String
   schedule_staffs_every: Schedule_StaffWhereInput
   schedule_staffs_some: Schedule_StaffWhereInput
   schedule_staffs_none: Schedule_StaffWhereInput
   schedule: ScheduleWhereInput
 }
 
-input Schedule_DailyWhereUniqueInput {
+input Schedule_DayWhereUniqueInput {
   id: ID
-  daily_No: String
+  day_No: String
 }
 
 type Schedule_Interval implements Node {
@@ -1296,7 +1296,7 @@ input Schedule_IntervalWhereUniqueInput {
 
 type Schedule_Staff implements Node {
   id: ID!
-  schedule_daily: Schedule_Daily!
+  schedule_day: Schedule_Day!
   schedule: Schedule!
   staff: User
   position: String!
@@ -1316,14 +1316,14 @@ type Schedule_StaffConnection {
 input Schedule_StaffCreateInput {
   id: ID
   position: String!
-  schedule_daily: Schedule_DailyCreateOneWithoutSchedule_staffsInput!
+  schedule_day: Schedule_DayCreateOneWithoutSchedule_staffsInput!
   schedule: ScheduleCreateOneWithoutSchedule_staffsInput!
   staff: UserCreateOneInput
   schedule_interval: Schedule_IntervalCreateOneInput!
 }
 
-input Schedule_StaffCreateManyWithoutSchedule_dailyInput {
-  create: [Schedule_StaffCreateWithoutSchedule_dailyInput!]
+input Schedule_StaffCreateManyWithoutSchedule_dayInput {
+  create: [Schedule_StaffCreateWithoutSchedule_dayInput!]
   connect: [Schedule_StaffWhereUniqueInput!]
 }
 
@@ -1332,7 +1332,7 @@ input Schedule_StaffCreateManyWithoutScheduleInput {
   connect: [Schedule_StaffWhereUniqueInput!]
 }
 
-input Schedule_StaffCreateWithoutSchedule_dailyInput {
+input Schedule_StaffCreateWithoutSchedule_dayInput {
   id: ID
   position: String!
   schedule: ScheduleCreateOneWithoutSchedule_staffsInput!
@@ -1343,7 +1343,7 @@ input Schedule_StaffCreateWithoutSchedule_dailyInput {
 input Schedule_StaffCreateWithoutScheduleInput {
   id: ID
   position: String!
-  schedule_daily: Schedule_DailyCreateOneWithoutSchedule_staffsInput!
+  schedule_day: Schedule_DayCreateOneWithoutSchedule_staffsInput!
   staff: UserCreateOneInput
   schedule_interval: Schedule_IntervalCreateOneInput!
 }
@@ -1499,7 +1499,7 @@ input Schedule_StaffSubscriptionWhereInput {
 
 input Schedule_StaffUpdateInput {
   position: String
-  schedule_daily: Schedule_DailyUpdateOneRequiredWithoutSchedule_staffsInput
+  schedule_day: Schedule_DayUpdateOneRequiredWithoutSchedule_staffsInput
   schedule: ScheduleUpdateOneRequiredWithoutSchedule_staffsInput
   staff: UserUpdateOneInput
   schedule_interval: Schedule_IntervalUpdateOneRequiredInput
@@ -1513,16 +1513,16 @@ input Schedule_StaffUpdateManyMutationInput {
   position: String
 }
 
-input Schedule_StaffUpdateManyWithoutSchedule_dailyInput {
-  create: [Schedule_StaffCreateWithoutSchedule_dailyInput!]
+input Schedule_StaffUpdateManyWithoutSchedule_dayInput {
+  create: [Schedule_StaffCreateWithoutSchedule_dayInput!]
   connect: [Schedule_StaffWhereUniqueInput!]
   set: [Schedule_StaffWhereUniqueInput!]
   disconnect: [Schedule_StaffWhereUniqueInput!]
   delete: [Schedule_StaffWhereUniqueInput!]
-  update: [Schedule_StaffUpdateWithWhereUniqueWithoutSchedule_dailyInput!]
+  update: [Schedule_StaffUpdateWithWhereUniqueWithoutSchedule_dayInput!]
   updateMany: [Schedule_StaffUpdateManyWithWhereNestedInput!]
   deleteMany: [Schedule_StaffScalarWhereInput!]
-  upsert: [Schedule_StaffUpsertWithWhereUniqueWithoutSchedule_dailyInput!]
+  upsert: [Schedule_StaffUpsertWithWhereUniqueWithoutSchedule_dayInput!]
 }
 
 input Schedule_StaffUpdateManyWithoutScheduleInput {
@@ -1542,7 +1542,7 @@ input Schedule_StaffUpdateManyWithWhereNestedInput {
   data: Schedule_StaffUpdateManyDataInput!
 }
 
-input Schedule_StaffUpdateWithoutSchedule_dailyDataInput {
+input Schedule_StaffUpdateWithoutSchedule_dayDataInput {
   position: String
   schedule: ScheduleUpdateOneRequiredWithoutSchedule_staffsInput
   staff: UserUpdateOneInput
@@ -1551,14 +1551,14 @@ input Schedule_StaffUpdateWithoutSchedule_dailyDataInput {
 
 input Schedule_StaffUpdateWithoutScheduleDataInput {
   position: String
-  schedule_daily: Schedule_DailyUpdateOneRequiredWithoutSchedule_staffsInput
+  schedule_day: Schedule_DayUpdateOneRequiredWithoutSchedule_staffsInput
   staff: UserUpdateOneInput
   schedule_interval: Schedule_IntervalUpdateOneRequiredInput
 }
 
-input Schedule_StaffUpdateWithWhereUniqueWithoutSchedule_dailyInput {
+input Schedule_StaffUpdateWithWhereUniqueWithoutSchedule_dayInput {
   where: Schedule_StaffWhereUniqueInput!
-  data: Schedule_StaffUpdateWithoutSchedule_dailyDataInput!
+  data: Schedule_StaffUpdateWithoutSchedule_dayDataInput!
 }
 
 input Schedule_StaffUpdateWithWhereUniqueWithoutScheduleInput {
@@ -1566,10 +1566,10 @@ input Schedule_StaffUpdateWithWhereUniqueWithoutScheduleInput {
   data: Schedule_StaffUpdateWithoutScheduleDataInput!
 }
 
-input Schedule_StaffUpsertWithWhereUniqueWithoutSchedule_dailyInput {
+input Schedule_StaffUpsertWithWhereUniqueWithoutSchedule_dayInput {
   where: Schedule_StaffWhereUniqueInput!
-  update: Schedule_StaffUpdateWithoutSchedule_dailyDataInput!
-  create: Schedule_StaffCreateWithoutSchedule_dailyInput!
+  update: Schedule_StaffUpdateWithoutSchedule_dayDataInput!
+  create: Schedule_StaffCreateWithoutSchedule_dayInput!
 }
 
 input Schedule_StaffUpsertWithWhereUniqueWithoutScheduleInput {
@@ -1667,7 +1667,7 @@ input Schedule_StaffWhereInput {
 
   """All values not ending with the given string."""
   position_not_ends_with: String
-  schedule_daily: Schedule_DailyWhereInput
+  schedule_day: Schedule_DayWhereInput
   schedule: ScheduleWhereInput
   staff: UserWhereInput
   schedule_interval: Schedule_IntervalWhereInput
@@ -1690,12 +1690,12 @@ type ScheduleConnection {
 input ScheduleCreateInput {
   id: ID
   schedule_No: String!
-  schedule_dailys: Schedule_DailyCreateManyWithoutScheduleInput
+  schedule_days: Schedule_DayCreateManyWithoutScheduleInput
   schedule_staffs: Schedule_StaffCreateManyWithoutScheduleInput
 }
 
-input ScheduleCreateOneWithoutSchedule_dailysInput {
-  create: ScheduleCreateWithoutSchedule_dailysInput
+input ScheduleCreateOneWithoutSchedule_daysInput {
+  create: ScheduleCreateWithoutSchedule_daysInput
   connect: ScheduleWhereUniqueInput
 }
 
@@ -1704,7 +1704,7 @@ input ScheduleCreateOneWithoutSchedule_staffsInput {
   connect: ScheduleWhereUniqueInput
 }
 
-input ScheduleCreateWithoutSchedule_dailysInput {
+input ScheduleCreateWithoutSchedule_daysInput {
   id: ID
   schedule_No: String!
   schedule_staffs: Schedule_StaffCreateManyWithoutScheduleInput
@@ -1713,7 +1713,7 @@ input ScheduleCreateWithoutSchedule_dailysInput {
 input ScheduleCreateWithoutSchedule_staffsInput {
   id: ID
   schedule_No: String!
-  schedule_dailys: Schedule_DailyCreateManyWithoutScheduleInput
+  schedule_days: Schedule_DayCreateManyWithoutScheduleInput
 }
 
 """An edge in a connection."""
@@ -1776,7 +1776,7 @@ input ScheduleSubscriptionWhereInput {
 
 input ScheduleUpdateInput {
   schedule_No: String
-  schedule_dailys: Schedule_DailyUpdateManyWithoutScheduleInput
+  schedule_days: Schedule_DayUpdateManyWithoutScheduleInput
   schedule_staffs: Schedule_StaffUpdateManyWithoutScheduleInput
 }
 
@@ -1784,11 +1784,11 @@ input ScheduleUpdateManyMutationInput {
   schedule_No: String
 }
 
-input ScheduleUpdateOneRequiredWithoutSchedule_dailysInput {
-  create: ScheduleCreateWithoutSchedule_dailysInput
+input ScheduleUpdateOneRequiredWithoutSchedule_daysInput {
+  create: ScheduleCreateWithoutSchedule_daysInput
   connect: ScheduleWhereUniqueInput
-  update: ScheduleUpdateWithoutSchedule_dailysDataInput
-  upsert: ScheduleUpsertWithoutSchedule_dailysInput
+  update: ScheduleUpdateWithoutSchedule_daysDataInput
+  upsert: ScheduleUpsertWithoutSchedule_daysInput
 }
 
 input ScheduleUpdateOneRequiredWithoutSchedule_staffsInput {
@@ -1798,19 +1798,19 @@ input ScheduleUpdateOneRequiredWithoutSchedule_staffsInput {
   upsert: ScheduleUpsertWithoutSchedule_staffsInput
 }
 
-input ScheduleUpdateWithoutSchedule_dailysDataInput {
+input ScheduleUpdateWithoutSchedule_daysDataInput {
   schedule_No: String
   schedule_staffs: Schedule_StaffUpdateManyWithoutScheduleInput
 }
 
 input ScheduleUpdateWithoutSchedule_staffsDataInput {
   schedule_No: String
-  schedule_dailys: Schedule_DailyUpdateManyWithoutScheduleInput
+  schedule_days: Schedule_DayUpdateManyWithoutScheduleInput
 }
 
-input ScheduleUpsertWithoutSchedule_dailysInput {
-  update: ScheduleUpdateWithoutSchedule_dailysDataInput!
-  create: ScheduleCreateWithoutSchedule_dailysInput!
+input ScheduleUpsertWithoutSchedule_daysInput {
+  update: ScheduleUpdateWithoutSchedule_daysDataInput!
+  create: ScheduleCreateWithoutSchedule_daysInput!
 }
 
 input ScheduleUpsertWithoutSchedule_staffsInput {
@@ -1907,9 +1907,9 @@ input ScheduleWhereInput {
 
   """All values not ending with the given string."""
   schedule_No_not_ends_with: String
-  schedule_dailys_every: Schedule_DailyWhereInput
-  schedule_dailys_some: Schedule_DailyWhereInput
-  schedule_dailys_none: Schedule_DailyWhereInput
+  schedule_days_every: Schedule_DayWhereInput
+  schedule_days_some: Schedule_DayWhereInput
+  schedule_days_none: Schedule_DayWhereInput
   schedule_staffs_every: Schedule_StaffWhereInput
   schedule_staffs_some: Schedule_StaffWhereInput
   schedule_staffs_none: Schedule_StaffWhereInput
@@ -1923,7 +1923,7 @@ input ScheduleWhereUniqueInput {
 type Subscription {
   freetime(where: FreetimeSubscriptionWhereInput): FreetimeSubscriptionPayload
   schedule(where: ScheduleSubscriptionWhereInput): ScheduleSubscriptionPayload
-  schedule_Daily(where: Schedule_DailySubscriptionWhereInput): Schedule_DailySubscriptionPayload
+  schedule_Day(where: Schedule_DaySubscriptionWhereInput): Schedule_DaySubscriptionPayload
   schedule_Staff(where: Schedule_StaffSubscriptionWhereInput): Schedule_StaffSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   schedule_Interval(where: Schedule_IntervalSubscriptionWhereInput): Schedule_IntervalSubscriptionPayload

@@ -20,8 +20,10 @@ type Mutation {
   resetFreetime(resetItem: String!): Freetime!
   createSchedule(schedule_No: String!): Schedule
   createSchedule_Day(schedule_No: String!): Schedule_Day
-  createSchedule_Interval(start: Int!, end: Int!): Schedule_Interval
+  createSchedule_Interval(start: String!, end: String!): Schedule_Interval
   createSchedule_Staff(data: createSchedule_StaffInput!): Schedule_Staff
+  updateSchedule_Staff(data: updateSchedule_StaffInput!): Schedule_Staff
+  deleteSchedule_Staff(id: ID!): Schedule_Staff
 }
 
 type AuthPayload {
@@ -57,6 +59,12 @@ input createSchedule_StaffInput {
   employeeId: String
   position: String!
   interval_No: String!
+}
+
+input updateSchedule_StaffInput {
+  id: ID!
+  employeeId: String
+  interval_No: String
 }
 
 type User {
@@ -111,6 +119,6 @@ type Schedule_Staff {
 type Schedule_Interval {
   id: ID!
   interval_No: String!
-  start: Int!
-  end: Int!
+  start: String!
+  end: String!
 }
