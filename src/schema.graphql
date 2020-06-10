@@ -1,24 +1,25 @@
 # import UserOrderByInput FreetimeOrderByInput from './generated/prisma.graphql'
 
 type Query {
-  users(query: String, orderBy: UserOrderByInput): [User!]!
-  me: User!
-  freetimes(orderBy: FreetimeOrderByInput): [Freetime!]!
-  myFreetimes(orderBy: FreetimeOrderByInput): [Freetime!]!
+  users(query: String, orderBy: UserOrderByInput): [User]
+  me: User
+  freetimes(orderBy: FreetimeOrderByInput): [Freetime]
+  myFreetimes(orderBy: FreetimeOrderByInput): [Freetime]
   schedule_interval(start: String!, end: String!): Schedule_Interval
-  schedule(schedule_No: String!): Schedule!
-  schedule_day(day_No: String!): Schedule_Day!
+  schedule(schedule_No: String!): Schedule
+  schedule_day(day_No: String!): Schedule_Day
 }
 
 type Mutation {
   createUser(auth: String!, data: CreateUserInput!): AuthPayload!
   updateUser(employeeId: String!, data: UpdateUserInput!): User!
-  deleteUser(employeeId: String!): User!
+  deleteUser(employeeId: String!): User
   login(data: LoginInput!): AuthPayload!
   createFreetime(employeeId: String!): Freetime!
   updateFreetime(data: UpdateFreetimeInput!): Freetime!
   resetFreetime(resetItem: String!): Freetime!
   createSchedule(schedule_No: String!): Schedule
+  deleteSchedule(schedule_No: String!): Schedule
   createSchedule_Day(schedule_No: String!): Schedule_Day
   createSchedule_Interval(start: String!, end: String!): Schedule_Interval
   createSchedule_Staff(data: createSchedule_StaffInput!): Schedule_Staff

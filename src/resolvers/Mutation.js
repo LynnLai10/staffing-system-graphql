@@ -163,11 +163,24 @@ const Mutation = {
     return prisma.mutation.createSchedule(
       {
         data: {
-          schedule_No: args.schedule_No,
+          schedule_No: args.schedule_No
         },
       },
       info
     );
+  },
+  async deleteSchedule(parent, args, { prisma, request }, info) {
+    const { schedule_No } = args
+    const isExist = await prisma.exists.Schedule({
+      schedule_No
+    })
+    if (isExist) {
+      return prisma.mutation.deleteSchedule({
+        where: {
+          schedule_No
+        }
+      })
+    }
   },
   async createSchedule_Day(parent, args, { prisma, request }, info) {
     for (let i = 0; i < 14; i++) {
