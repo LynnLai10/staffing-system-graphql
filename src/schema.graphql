@@ -8,6 +8,7 @@ type Query {
   schedule_interval(start: String!, end: String!): Schedule_Interval
   schedule(schedule_No: String!): Schedule
   schedule_day(day_No: String!): Schedule_Day
+  schedule_staff(id: ID!): Schedule_Staff
 }
 
 type Mutation {
@@ -20,7 +21,7 @@ type Mutation {
   resetFreetime(resetItem: String!): Freetime!
   createSchedule(schedule_No: String!): Schedule
   deleteSchedule(schedule_No: String!): Schedule
-  createSchedule_Day(schedule_No: String!): Schedule_Day
+  createSchedule_Day(schedule_No: String! day_No:String!): Schedule_Day
   createSchedule_Interval(start: String!, end: String!): Schedule_Interval
   createSchedule_Staff(data: createSchedule_StaffInput!): Schedule_Staff
   updateSchedule_Staff(data: updateSchedule_StaffInput!): Schedule_Staff

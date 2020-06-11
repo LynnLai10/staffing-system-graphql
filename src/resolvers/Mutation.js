@@ -163,42 +163,40 @@ const Mutation = {
     return prisma.mutation.createSchedule(
       {
         data: {
-          schedule_No: args.schedule_No
+          schedule_No: args.schedule_No,
         },
       },
       info
     );
   },
   async deleteSchedule(parent, args, { prisma, request }, info) {
-    const { schedule_No } = args
+    const { schedule_No } = args;
     const isExist = await prisma.exists.Schedule({
-      schedule_No
-    })
+      schedule_No,
+    });
     if (isExist) {
       return prisma.mutation.deleteSchedule({
         where: {
-          schedule_No
-        }
-      })
-    }
-  },
-  async createSchedule_Day(parent, args, { prisma, request }, info) {
-    for (let i = 0; i < 14; i++) {
-      prisma.mutation.createSchedule_Day({
-        data: {
-          day_No: `${args.schedule_No}-${i.toString()}`,
-          schedule: {
-            connect: {
-              schedule_No: args.schedule_No,
-            },
-          },
+          schedule_No,
         },
       });
     }
   },
+  async createSchedule_Day(parent, args, { prisma, request }, info) {
+    prisma.mutation.createSchedule_Day({
+      data: {
+        day_No: args.day_No,
+        schedule: {
+          connect: {
+            schedule_No: args.schedule_No,
+          },
+        },
+      },
+    });
+  },
   async createSchedule_Interval(parent, args, { prisma, request }, info) {
     const { start, end } = args;
-    const interval_No = start + "_" + end;
+    const interval_No = start + "-" + end;
     return prisma.mutation.createSchedule_Interval(
       {
         data: {
@@ -225,8 +223,8 @@ const Mutation = {
       await prisma.mutation.createSchedule_Interval({
         data: {
           interval_No,
-          start: interval_No.split("_")[0],
-          end: interval_No.split("_")[1],
+          start: interval_No.split("-")[0],
+          end: interval_No.split("-")[1],
         },
       });
     }
@@ -269,8 +267,8 @@ const Mutation = {
       await prisma.mutation.createSchedule_Interval({
         data: {
           interval_No,
-          start: interval_No.split("_")[0],
-          end: interval_No.split("_")[1],
+          start: interval_No.split("-")[0],
+          end: interval_No.split("-")[1],
         },
       });
     }
@@ -295,7 +293,7 @@ const Mutation = {
             employeeId,
           },
         },
-      }
+      };
     }
     return prisma.mutation.updateSchedule_Staff(data, info);
   },

@@ -51,6 +51,13 @@ const Query = {
             }
         }, info)
     },
+    schedule_staff(parent, args, { prisma, request }, info) {
+        return prisma.query.schedule_Staff({
+            where: {
+                id: args.id
+            }
+        }, info)
+    },
     schedule_interval(parent, args, { prisma, request }, info) {
         const { start, end } = args
         return prisma.query.schedule_intervals({
