@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Jun 06 2020 15:00:19 GMT+0800 (China Standard Time)
+# timestamp: Fri Jun 12 2020 13:50:25 GMT+0800 (China Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -34,10 +34,10 @@ scalar DateTime
 
 type Freetime implements Node {
   id: ID!
-  freetime_next: String!
-  freetime_default: String!
-  useDefault: Boolean!
+  day_No: String!
+  availability: String!
   user: User!
+  schedule: Schedule!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -54,10 +54,15 @@ type FreetimeConnection {
 
 input FreetimeCreateInput {
   id: ID
-  freetime_next: String!
-  freetime_default: String!
-  useDefault: Boolean!
+  day_No: String!
+  availability: String!
   user: UserCreateOneWithoutFreetimesInput!
+  schedule: ScheduleCreateOneWithoutFreetimesInput!
+}
+
+input FreetimeCreateManyWithoutScheduleInput {
+  create: [FreetimeCreateWithoutScheduleInput!]
+  connect: [FreetimeWhereUniqueInput!]
 }
 
 input FreetimeCreateManyWithoutUserInput {
@@ -65,11 +70,18 @@ input FreetimeCreateManyWithoutUserInput {
   connect: [FreetimeWhereUniqueInput!]
 }
 
+input FreetimeCreateWithoutScheduleInput {
+  id: ID
+  day_No: String!
+  availability: String!
+  user: UserCreateOneWithoutFreetimesInput!
+}
+
 input FreetimeCreateWithoutUserInput {
   id: ID
-  freetime_next: String!
-  freetime_default: String!
-  useDefault: Boolean!
+  day_No: String!
+  availability: String!
+  schedule: ScheduleCreateOneWithoutFreetimesInput!
 }
 
 """An edge in a connection."""
@@ -84,12 +96,10 @@ type FreetimeEdge {
 enum FreetimeOrderByInput {
   id_ASC
   id_DESC
-  freetime_next_ASC
-  freetime_next_DESC
-  freetime_default_ASC
-  freetime_default_DESC
-  useDefault_ASC
-  useDefault_DESC
+  day_No_ASC
+  day_No_DESC
+  availability_ASC
+  availability_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -98,9 +108,8 @@ enum FreetimeOrderByInput {
 
 type FreetimePreviousValues {
   id: ID!
-  freetime_next: String!
-  freetime_default: String!
-  useDefault: Boolean!
+  day_No: String!
+  availability: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -154,90 +163,86 @@ input FreetimeScalarWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  freetime_next: String
+  day_No: String
 
   """All values that are not equal to given value."""
-  freetime_next_not: String
+  day_No_not: String
 
   """All values that are contained in given list."""
-  freetime_next_in: [String!]
+  day_No_in: [String!]
 
   """All values that are not contained in given list."""
-  freetime_next_not_in: [String!]
+  day_No_not_in: [String!]
 
   """All values less than the given value."""
-  freetime_next_lt: String
+  day_No_lt: String
 
   """All values less than or equal the given value."""
-  freetime_next_lte: String
+  day_No_lte: String
 
   """All values greater than the given value."""
-  freetime_next_gt: String
+  day_No_gt: String
 
   """All values greater than or equal the given value."""
-  freetime_next_gte: String
+  day_No_gte: String
 
   """All values containing the given string."""
-  freetime_next_contains: String
+  day_No_contains: String
 
   """All values not containing the given string."""
-  freetime_next_not_contains: String
+  day_No_not_contains: String
 
   """All values starting with the given string."""
-  freetime_next_starts_with: String
+  day_No_starts_with: String
 
   """All values not starting with the given string."""
-  freetime_next_not_starts_with: String
+  day_No_not_starts_with: String
 
   """All values ending with the given string."""
-  freetime_next_ends_with: String
+  day_No_ends_with: String
 
   """All values not ending with the given string."""
-  freetime_next_not_ends_with: String
-  freetime_default: String
+  day_No_not_ends_with: String
+  availability: String
 
   """All values that are not equal to given value."""
-  freetime_default_not: String
+  availability_not: String
 
   """All values that are contained in given list."""
-  freetime_default_in: [String!]
+  availability_in: [String!]
 
   """All values that are not contained in given list."""
-  freetime_default_not_in: [String!]
+  availability_not_in: [String!]
 
   """All values less than the given value."""
-  freetime_default_lt: String
+  availability_lt: String
 
   """All values less than or equal the given value."""
-  freetime_default_lte: String
+  availability_lte: String
 
   """All values greater than the given value."""
-  freetime_default_gt: String
+  availability_gt: String
 
   """All values greater than or equal the given value."""
-  freetime_default_gte: String
+  availability_gte: String
 
   """All values containing the given string."""
-  freetime_default_contains: String
+  availability_contains: String
 
   """All values not containing the given string."""
-  freetime_default_not_contains: String
+  availability_not_contains: String
 
   """All values starting with the given string."""
-  freetime_default_starts_with: String
+  availability_starts_with: String
 
   """All values not starting with the given string."""
-  freetime_default_not_starts_with: String
+  availability_not_starts_with: String
 
   """All values ending with the given string."""
-  freetime_default_ends_with: String
+  availability_ends_with: String
 
   """All values not ending with the given string."""
-  freetime_default_not_ends_with: String
-  useDefault: Boolean
-
-  """All values that are not equal to given value."""
-  useDefault_not: Boolean
+  availability_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -322,22 +327,32 @@ input FreetimeSubscriptionWhereInput {
 }
 
 input FreetimeUpdateInput {
-  freetime_next: String
-  freetime_default: String
-  useDefault: Boolean
+  day_No: String
+  availability: String
   user: UserUpdateOneRequiredWithoutFreetimesInput
+  schedule: ScheduleUpdateOneRequiredWithoutFreetimesInput
 }
 
 input FreetimeUpdateManyDataInput {
-  freetime_next: String
-  freetime_default: String
-  useDefault: Boolean
+  day_No: String
+  availability: String
 }
 
 input FreetimeUpdateManyMutationInput {
-  freetime_next: String
-  freetime_default: String
-  useDefault: Boolean
+  day_No: String
+  availability: String
+}
+
+input FreetimeUpdateManyWithoutScheduleInput {
+  create: [FreetimeCreateWithoutScheduleInput!]
+  connect: [FreetimeWhereUniqueInput!]
+  set: [FreetimeWhereUniqueInput!]
+  disconnect: [FreetimeWhereUniqueInput!]
+  delete: [FreetimeWhereUniqueInput!]
+  update: [FreetimeUpdateWithWhereUniqueWithoutScheduleInput!]
+  updateMany: [FreetimeUpdateManyWithWhereNestedInput!]
+  deleteMany: [FreetimeScalarWhereInput!]
+  upsert: [FreetimeUpsertWithWhereUniqueWithoutScheduleInput!]
 }
 
 input FreetimeUpdateManyWithoutUserInput {
@@ -357,15 +372,32 @@ input FreetimeUpdateManyWithWhereNestedInput {
   data: FreetimeUpdateManyDataInput!
 }
 
+input FreetimeUpdateWithoutScheduleDataInput {
+  day_No: String
+  availability: String
+  user: UserUpdateOneRequiredWithoutFreetimesInput
+}
+
 input FreetimeUpdateWithoutUserDataInput {
-  freetime_next: String
-  freetime_default: String
-  useDefault: Boolean
+  day_No: String
+  availability: String
+  schedule: ScheduleUpdateOneRequiredWithoutFreetimesInput
+}
+
+input FreetimeUpdateWithWhereUniqueWithoutScheduleInput {
+  where: FreetimeWhereUniqueInput!
+  data: FreetimeUpdateWithoutScheduleDataInput!
 }
 
 input FreetimeUpdateWithWhereUniqueWithoutUserInput {
   where: FreetimeWhereUniqueInput!
   data: FreetimeUpdateWithoutUserDataInput!
+}
+
+input FreetimeUpsertWithWhereUniqueWithoutScheduleInput {
+  where: FreetimeWhereUniqueInput!
+  update: FreetimeUpdateWithoutScheduleDataInput!
+  create: FreetimeCreateWithoutScheduleInput!
 }
 
 input FreetimeUpsertWithWhereUniqueWithoutUserInput {
@@ -423,90 +455,86 @@ input FreetimeWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  freetime_next: String
+  day_No: String
 
   """All values that are not equal to given value."""
-  freetime_next_not: String
+  day_No_not: String
 
   """All values that are contained in given list."""
-  freetime_next_in: [String!]
+  day_No_in: [String!]
 
   """All values that are not contained in given list."""
-  freetime_next_not_in: [String!]
+  day_No_not_in: [String!]
 
   """All values less than the given value."""
-  freetime_next_lt: String
+  day_No_lt: String
 
   """All values less than or equal the given value."""
-  freetime_next_lte: String
+  day_No_lte: String
 
   """All values greater than the given value."""
-  freetime_next_gt: String
+  day_No_gt: String
 
   """All values greater than or equal the given value."""
-  freetime_next_gte: String
+  day_No_gte: String
 
   """All values containing the given string."""
-  freetime_next_contains: String
+  day_No_contains: String
 
   """All values not containing the given string."""
-  freetime_next_not_contains: String
+  day_No_not_contains: String
 
   """All values starting with the given string."""
-  freetime_next_starts_with: String
+  day_No_starts_with: String
 
   """All values not starting with the given string."""
-  freetime_next_not_starts_with: String
+  day_No_not_starts_with: String
 
   """All values ending with the given string."""
-  freetime_next_ends_with: String
+  day_No_ends_with: String
 
   """All values not ending with the given string."""
-  freetime_next_not_ends_with: String
-  freetime_default: String
+  day_No_not_ends_with: String
+  availability: String
 
   """All values that are not equal to given value."""
-  freetime_default_not: String
+  availability_not: String
 
   """All values that are contained in given list."""
-  freetime_default_in: [String!]
+  availability_in: [String!]
 
   """All values that are not contained in given list."""
-  freetime_default_not_in: [String!]
+  availability_not_in: [String!]
 
   """All values less than the given value."""
-  freetime_default_lt: String
+  availability_lt: String
 
   """All values less than or equal the given value."""
-  freetime_default_lte: String
+  availability_lte: String
 
   """All values greater than the given value."""
-  freetime_default_gt: String
+  availability_gt: String
 
   """All values greater than or equal the given value."""
-  freetime_default_gte: String
+  availability_gte: String
 
   """All values containing the given string."""
-  freetime_default_contains: String
+  availability_contains: String
 
   """All values not containing the given string."""
-  freetime_default_not_contains: String
+  availability_not_contains: String
 
   """All values starting with the given string."""
-  freetime_default_starts_with: String
+  availability_starts_with: String
 
   """All values not starting with the given string."""
-  freetime_default_not_starts_with: String
+  availability_not_starts_with: String
 
   """All values ending with the given string."""
-  freetime_default_ends_with: String
+  availability_ends_with: String
 
   """All values not ending with the given string."""
-  freetime_default_not_ends_with: String
-  useDefault: Boolean
-
-  """All values that are not equal to given value."""
-  useDefault_not: Boolean
+  availability_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -552,6 +580,7 @@ input FreetimeWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   user: UserWhereInput
+  schedule: ScheduleWhereInput
 }
 
 input FreetimeWhereUniqueInput {
@@ -568,38 +597,38 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createFreetime(data: FreetimeCreateInput!): Freetime!
   createSchedule(data: ScheduleCreateInput!): Schedule!
+  createFreetime(data: FreetimeCreateInput!): Freetime!
   createSchedule_Day(data: Schedule_DayCreateInput!): Schedule_Day!
   createSchedule_Staff(data: Schedule_StaffCreateInput!): Schedule_Staff!
   createUser(data: UserCreateInput!): User!
   createSchedule_Interval(data: Schedule_IntervalCreateInput!): Schedule_Interval!
-  updateFreetime(data: FreetimeUpdateInput!, where: FreetimeWhereUniqueInput!): Freetime
   updateSchedule(data: ScheduleUpdateInput!, where: ScheduleWhereUniqueInput!): Schedule
+  updateFreetime(data: FreetimeUpdateInput!, where: FreetimeWhereUniqueInput!): Freetime
   updateSchedule_Day(data: Schedule_DayUpdateInput!, where: Schedule_DayWhereUniqueInput!): Schedule_Day
   updateSchedule_Staff(data: Schedule_StaffUpdateInput!, where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSchedule_Interval(data: Schedule_IntervalUpdateInput!, where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
-  deleteFreetime(where: FreetimeWhereUniqueInput!): Freetime
   deleteSchedule(where: ScheduleWhereUniqueInput!): Schedule
+  deleteFreetime(where: FreetimeWhereUniqueInput!): Freetime
   deleteSchedule_Day(where: Schedule_DayWhereUniqueInput!): Schedule_Day
   deleteSchedule_Staff(where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSchedule_Interval(where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
-  upsertFreetime(where: FreetimeWhereUniqueInput!, create: FreetimeCreateInput!, update: FreetimeUpdateInput!): Freetime!
   upsertSchedule(where: ScheduleWhereUniqueInput!, create: ScheduleCreateInput!, update: ScheduleUpdateInput!): Schedule!
+  upsertFreetime(where: FreetimeWhereUniqueInput!, create: FreetimeCreateInput!, update: FreetimeUpdateInput!): Freetime!
   upsertSchedule_Day(where: Schedule_DayWhereUniqueInput!, create: Schedule_DayCreateInput!, update: Schedule_DayUpdateInput!): Schedule_Day!
   upsertSchedule_Staff(where: Schedule_StaffWhereUniqueInput!, create: Schedule_StaffCreateInput!, update: Schedule_StaffUpdateInput!): Schedule_Staff!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSchedule_Interval(where: Schedule_IntervalWhereUniqueInput!, create: Schedule_IntervalCreateInput!, update: Schedule_IntervalUpdateInput!): Schedule_Interval!
-  updateManyFreetimes(data: FreetimeUpdateManyMutationInput!, where: FreetimeWhereInput): BatchPayload!
   updateManySchedules(data: ScheduleUpdateManyMutationInput!, where: ScheduleWhereInput): BatchPayload!
+  updateManyFreetimes(data: FreetimeUpdateManyMutationInput!, where: FreetimeWhereInput): BatchPayload!
   updateManySchedule_Days(data: Schedule_DayUpdateManyMutationInput!, where: Schedule_DayWhereInput): BatchPayload!
   updateManySchedule_Staffs(data: Schedule_StaffUpdateManyMutationInput!, where: Schedule_StaffWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManySchedule_Intervals(data: Schedule_IntervalUpdateManyMutationInput!, where: Schedule_IntervalWhereInput): BatchPayload!
-  deleteManyFreetimes(where: FreetimeWhereInput): BatchPayload!
   deleteManySchedules(where: ScheduleWhereInput): BatchPayload!
+  deleteManyFreetimes(where: FreetimeWhereInput): BatchPayload!
   deleteManySchedule_Days(where: Schedule_DayWhereInput): BatchPayload!
   deleteManySchedule_Staffs(where: Schedule_StaffWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -639,20 +668,20 @@ enum PrismaDatabase {
 }
 
 type Query {
-  freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime]!
   schedules(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule]!
+  freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime]!
   schedule_Days(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Day]!
   schedule_Staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   schedule_Intervals(where: Schedule_IntervalWhereInput, orderBy: Schedule_IntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Interval]!
-  freetime(where: FreetimeWhereUniqueInput!): Freetime
   schedule(where: ScheduleWhereUniqueInput!): Schedule
+  freetime(where: FreetimeWhereUniqueInput!): Freetime
   schedule_Day(where: Schedule_DayWhereUniqueInput!): Schedule_Day
   schedule_Staff(where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
   user(where: UserWhereUniqueInput!): User
   schedule_Interval(where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
-  freetimesConnection(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FreetimeConnection!
   schedulesConnection(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ScheduleConnection!
+  freetimesConnection(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FreetimeConnection!
   schedule_DaysConnection(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_DayConnection!
   schedule_StaffsConnection(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_StaffConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -670,6 +699,7 @@ type Schedule implements Node {
   schedule_No: String!
   schedule_days(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Day!]
   schedule_staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff!]
+  freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime!]
 }
 
 type Schedule_Day implements Node {
@@ -1034,8 +1064,8 @@ input Schedule_DayWhereUniqueInput {
 type Schedule_Interval implements Node {
   id: ID!
   interval_No: String!
-  start: Int!
-  end: Int!
+  start: String!
+  end: String!
 }
 
 """A connection to a list of items."""
@@ -1051,8 +1081,8 @@ type Schedule_IntervalConnection {
 input Schedule_IntervalCreateInput {
   id: ID
   interval_No: String!
-  start: Int!
-  end: Int!
+  start: String!
+  end: String!
 }
 
 input Schedule_IntervalCreateOneInput {
@@ -1083,8 +1113,8 @@ enum Schedule_IntervalOrderByInput {
 type Schedule_IntervalPreviousValues {
   id: ID!
   interval_No: String!
-  start: Int!
-  end: Int!
+  start: String!
+  end: String!
 }
 
 type Schedule_IntervalSubscriptionPayload {
@@ -1126,20 +1156,20 @@ input Schedule_IntervalSubscriptionWhereInput {
 
 input Schedule_IntervalUpdateDataInput {
   interval_No: String
-  start: Int
-  end: Int
+  start: String
+  end: String
 }
 
 input Schedule_IntervalUpdateInput {
   interval_No: String
-  start: Int
-  end: Int
+  start: String
+  end: String
 }
 
 input Schedule_IntervalUpdateManyMutationInput {
   interval_No: String
-  start: Int
-  end: Int
+  start: String
+  end: String
 }
 
 input Schedule_IntervalUpdateOneRequiredInput {
@@ -1243,50 +1273,86 @@ input Schedule_IntervalWhereInput {
 
   """All values not ending with the given string."""
   interval_No_not_ends_with: String
-  start: Int
+  start: String
 
   """All values that are not equal to given value."""
-  start_not: Int
+  start_not: String
 
   """All values that are contained in given list."""
-  start_in: [Int!]
+  start_in: [String!]
 
   """All values that are not contained in given list."""
-  start_not_in: [Int!]
+  start_not_in: [String!]
 
   """All values less than the given value."""
-  start_lt: Int
+  start_lt: String
 
   """All values less than or equal the given value."""
-  start_lte: Int
+  start_lte: String
 
   """All values greater than the given value."""
-  start_gt: Int
+  start_gt: String
 
   """All values greater than or equal the given value."""
-  start_gte: Int
-  end: Int
+  start_gte: String
+
+  """All values containing the given string."""
+  start_contains: String
+
+  """All values not containing the given string."""
+  start_not_contains: String
+
+  """All values starting with the given string."""
+  start_starts_with: String
+
+  """All values not starting with the given string."""
+  start_not_starts_with: String
+
+  """All values ending with the given string."""
+  start_ends_with: String
+
+  """All values not ending with the given string."""
+  start_not_ends_with: String
+  end: String
 
   """All values that are not equal to given value."""
-  end_not: Int
+  end_not: String
 
   """All values that are contained in given list."""
-  end_in: [Int!]
+  end_in: [String!]
 
   """All values that are not contained in given list."""
-  end_not_in: [Int!]
+  end_not_in: [String!]
 
   """All values less than the given value."""
-  end_lt: Int
+  end_lt: String
 
   """All values less than or equal the given value."""
-  end_lte: Int
+  end_lte: String
 
   """All values greater than the given value."""
-  end_gt: Int
+  end_gt: String
 
   """All values greater than or equal the given value."""
-  end_gte: Int
+  end_gte: String
+
+  """All values containing the given string."""
+  end_contains: String
+
+  """All values not containing the given string."""
+  end_not_contains: String
+
+  """All values starting with the given string."""
+  end_starts_with: String
+
+  """All values not starting with the given string."""
+  end_not_starts_with: String
+
+  """All values ending with the given string."""
+  end_ends_with: String
+
+  """All values not ending with the given string."""
+  end_not_ends_with: String
 }
 
 input Schedule_IntervalWhereUniqueInput {
@@ -1692,6 +1758,12 @@ input ScheduleCreateInput {
   schedule_No: String!
   schedule_days: Schedule_DayCreateManyWithoutScheduleInput
   schedule_staffs: Schedule_StaffCreateManyWithoutScheduleInput
+  freetimes: FreetimeCreateManyWithoutScheduleInput
+}
+
+input ScheduleCreateOneWithoutFreetimesInput {
+  create: ScheduleCreateWithoutFreetimesInput
+  connect: ScheduleWhereUniqueInput
 }
 
 input ScheduleCreateOneWithoutSchedule_daysInput {
@@ -1704,16 +1776,25 @@ input ScheduleCreateOneWithoutSchedule_staffsInput {
   connect: ScheduleWhereUniqueInput
 }
 
+input ScheduleCreateWithoutFreetimesInput {
+  id: ID
+  schedule_No: String!
+  schedule_days: Schedule_DayCreateManyWithoutScheduleInput
+  schedule_staffs: Schedule_StaffCreateManyWithoutScheduleInput
+}
+
 input ScheduleCreateWithoutSchedule_daysInput {
   id: ID
   schedule_No: String!
   schedule_staffs: Schedule_StaffCreateManyWithoutScheduleInput
+  freetimes: FreetimeCreateManyWithoutScheduleInput
 }
 
 input ScheduleCreateWithoutSchedule_staffsInput {
   id: ID
   schedule_No: String!
   schedule_days: Schedule_DayCreateManyWithoutScheduleInput
+  freetimes: FreetimeCreateManyWithoutScheduleInput
 }
 
 """An edge in a connection."""
@@ -1778,10 +1859,18 @@ input ScheduleUpdateInput {
   schedule_No: String
   schedule_days: Schedule_DayUpdateManyWithoutScheduleInput
   schedule_staffs: Schedule_StaffUpdateManyWithoutScheduleInput
+  freetimes: FreetimeUpdateManyWithoutScheduleInput
 }
 
 input ScheduleUpdateManyMutationInput {
   schedule_No: String
+}
+
+input ScheduleUpdateOneRequiredWithoutFreetimesInput {
+  create: ScheduleCreateWithoutFreetimesInput
+  connect: ScheduleWhereUniqueInput
+  update: ScheduleUpdateWithoutFreetimesDataInput
+  upsert: ScheduleUpsertWithoutFreetimesInput
 }
 
 input ScheduleUpdateOneRequiredWithoutSchedule_daysInput {
@@ -1798,14 +1887,27 @@ input ScheduleUpdateOneRequiredWithoutSchedule_staffsInput {
   upsert: ScheduleUpsertWithoutSchedule_staffsInput
 }
 
+input ScheduleUpdateWithoutFreetimesDataInput {
+  schedule_No: String
+  schedule_days: Schedule_DayUpdateManyWithoutScheduleInput
+  schedule_staffs: Schedule_StaffUpdateManyWithoutScheduleInput
+}
+
 input ScheduleUpdateWithoutSchedule_daysDataInput {
   schedule_No: String
   schedule_staffs: Schedule_StaffUpdateManyWithoutScheduleInput
+  freetimes: FreetimeUpdateManyWithoutScheduleInput
 }
 
 input ScheduleUpdateWithoutSchedule_staffsDataInput {
   schedule_No: String
   schedule_days: Schedule_DayUpdateManyWithoutScheduleInput
+  freetimes: FreetimeUpdateManyWithoutScheduleInput
+}
+
+input ScheduleUpsertWithoutFreetimesInput {
+  update: ScheduleUpdateWithoutFreetimesDataInput!
+  create: ScheduleCreateWithoutFreetimesInput!
 }
 
 input ScheduleUpsertWithoutSchedule_daysInput {
@@ -1913,6 +2015,9 @@ input ScheduleWhereInput {
   schedule_staffs_every: Schedule_StaffWhereInput
   schedule_staffs_some: Schedule_StaffWhereInput
   schedule_staffs_none: Schedule_StaffWhereInput
+  freetimes_every: FreetimeWhereInput
+  freetimes_some: FreetimeWhereInput
+  freetimes_none: FreetimeWhereInput
 }
 
 input ScheduleWhereUniqueInput {
@@ -1921,8 +2026,8 @@ input ScheduleWhereUniqueInput {
 }
 
 type Subscription {
-  freetime(where: FreetimeSubscriptionWhereInput): FreetimeSubscriptionPayload
   schedule(where: ScheduleSubscriptionWhereInput): ScheduleSubscriptionPayload
+  freetime(where: FreetimeSubscriptionWhereInput): FreetimeSubscriptionPayload
   schedule_Day(where: Schedule_DaySubscriptionWhereInput): Schedule_DaySubscriptionPayload
   schedule_Staff(where: Schedule_StaffSubscriptionWhereInput): Schedule_StaffSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -1938,6 +2043,7 @@ type User implements Node {
   sex: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  useDefaultFreetime: Boolean
   freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime!]
   hiredate: DateTime
   permanentStaff: Boolean
@@ -1960,6 +2066,7 @@ input UserCreateInput {
   name: String!
   password: String!
   sex: String!
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
   freetimes: FreetimeCreateManyWithoutUserInput
@@ -1982,6 +2089,7 @@ input UserCreateWithoutFreetimesInput {
   name: String!
   password: String!
   sex: String!
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
 }
@@ -2012,6 +2120,8 @@ enum UserOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  useDefaultFreetime_ASC
+  useDefaultFreetime_DESC
   hiredate_ASC
   hiredate_DESC
   permanentStaff_ASC
@@ -2027,6 +2137,7 @@ type UserPreviousValues {
   sex: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
 }
@@ -2074,6 +2185,7 @@ input UserUpdateDataInput {
   name: String
   password: String
   sex: String
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
   freetimes: FreetimeUpdateManyWithoutUserInput
@@ -2085,6 +2197,7 @@ input UserUpdateInput {
   name: String
   password: String
   sex: String
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
   freetimes: FreetimeUpdateManyWithoutUserInput
@@ -2096,6 +2209,7 @@ input UserUpdateManyMutationInput {
   name: String
   password: String
   sex: String
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
 }
@@ -2122,6 +2236,7 @@ input UserUpdateWithoutFreetimesDataInput {
   name: String
   password: String
   sex: String
+  useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
 }
@@ -2429,6 +2544,10 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  useDefaultFreetime: Boolean
+
+  """All values that are not equal to given value."""
+  useDefaultFreetime_not: Boolean
   hiredate: DateTime
 
   """All values that are not equal to given value."""

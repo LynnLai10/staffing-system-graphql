@@ -7,19 +7,10 @@ type User {
   sex: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  useDefaultFreetime: Boolean
   freetimes: [Freetime!]! @relation(name: "FreetimeToUser", onDelete: CASCADE)
   hiredate: DateTime
   permanentStaff: Boolean
-}
-
-type Freetime {
-  id: ID! @id
-  freetime_next: String!
-  freetime_default: String!
-  useDefault: Boolean!
-  user: User! @relation(name: "FreetimeToUser", onDelete: SET_NULL)
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
 }
 
 type Schedule {
@@ -27,6 +18,17 @@ type Schedule {
   schedule_No: String! @unique
   schedule_days: [Schedule_Day!]! @relation(name: "Schedule_DayToSchedule", onDelete: CASCADE)
   schedule_staffs: [Schedule_Staff!]! @relation(name: "Schedule_StaffToSchedule", onDelete: CASCADE)
+  freetimes: [Freetime!]! 
+}
+
+type Freetime {
+  id: ID! @id
+  day_No: String!
+  availability: String!
+  user: User! @relation(name: "FreetimeToUser", onDelete: SET_NULL)
+  schedule: Schedule!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Schedule_Day {

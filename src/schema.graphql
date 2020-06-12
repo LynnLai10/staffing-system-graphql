@@ -1,27 +1,28 @@
-# import UserOrderByInput FreetimeOrderByInput from './generated/prisma.graphql'
+# import UserOrderByInput FreetimeOrderByInput Schedule_DayOrderByInput from './generated/prisma.graphql'
 
 type Query {
   users(query: String, orderBy: UserOrderByInput): [User]
   me: User
-  freetimes(orderBy: FreetimeOrderByInput): [Freetime]
-  myFreetimes(orderBy: FreetimeOrderByInput): [Freetime]
+  freetimes(schedule_No: String!, availability: String!, day_No: String!, orderBy: FreetimeOrderByInput): [Freetime]
+  myFreetimes(schedule_No: String!): [Freetime]
   schedule_interval(start: String!, end: String!): Schedule_Interval
   schedule(schedule_No: String!): Schedule
-  schedule_day(day_No: String!): Schedule_Day
+  schedule_days(schedule_No: String!): [Schedule_Day]
   schedule_staff(id: ID!): Schedule_Staff
+  schedule_staffs(day_No: String!): [Schedule_Staff]
 }
 
 type Mutation {
   createUser(auth: String!, data: CreateUserInput!): AuthPayload!
-  updateUser(employeeId: String!, data: UpdateUserInput!): User!
+  updateUser(employeeId: String!, data: UpdateUserInput!): User
   deleteUser(employeeId: String!): User
   login(data: LoginInput!): AuthPayload!
-  createFreetime(employeeId: String!): Freetime!
-  updateFreetime(data: UpdateFreetimeInput!): Freetime!
-  resetFreetime(resetItem: String!): Freetime!
+  createFreetime(data: createFreetimeInput): Freetime
+  updateFreetime(day_No: String!, data: updateFreetimeInput): Freetime
+  deleteManyFreetimes(schedule_No: String!): Long
   createSchedule(schedule_No: String!): Schedule
   deleteSchedule(schedule_No: String!): Schedule
-  createSchedule_Day(schedule_No: String! day_No:String!): Schedule_Day
+  createSchedule_Day(schedule_No: String!, day_No:String!): Schedule_Day
   createSchedule_Interval(start: String!, end: String!): Schedule_Interval
   createSchedule_Staff(data: createSchedule_StaffInput!): Schedule_Staff
   updateSchedule_Staff(data: updateSchedule_StaffInput!): Schedule_Staff
@@ -47,11 +48,16 @@ input UpdateUserInput {
   sex: String
   name: String
   password: String
+  useDefaultFreetime: Boolean
 }
 
-input UpdateFreetimeInput {
-  freetime_next: String
-  freetime_default: String
+input createFreetimeInput {
+  day_No: String! 
+  schedule_No: String!
+}
+
+input updateFreetimeInput {
+  availability: String
   useDefault: Boolean
 }
 
@@ -76,6 +82,9 @@ type User {
   name: String!
   sex: String!
   password: String!
+  useDefaultFreetime: Boolean
+  hiredate: DateTime
+  permanentStaff: Boolean
   createdAt: String!
   updatedAt: String!
 }
@@ -85,21 +94,22 @@ input LoginInput {
   password: String!
 }
 
-type Freetime {
-  id: ID!
-  freetime_next: String!
-  freetime_default: String!
-  useDefault: Boolean!
-  user: User!
-  updatedAt: String!
-  createdAt: String!
-}
-
 type Schedule {
   id: ID!
   schedule_No: String!
   schedule_days: [Schedule_Day!]!
   schedule_staffs: [Schedule_Staff!]!
+  freetimes: [Freetime!]! 
+}
+
+type Freetime {
+  id: ID!
+  day_No: String!
+  availability: String!
+  user: User!
+  schedule: Schedule!
+  updatedAt: String!
+  createdAt: String!
 }
 
 type Schedule_Day {

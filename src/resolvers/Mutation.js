@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import hashPassword from "../utils/hashPassword";
 import generateToken from "../utils/generateToken";
 import getUserId from "../utils/getUserId";
-import defaultFreetime from "../utils/defaultFreetime";
 
 const Mutation = {
   async createUser(parent, args, { prisma, request }, info) {
@@ -30,6 +29,7 @@ const Mutation = {
         data: {
           ...args.data,
           password,
+          useDefaultFreetime: false
         },
       });
       return {
@@ -91,32 +91,38 @@ const Mutation = {
     );
   },
   //----------------------  Freetime  -------------------------//
-  createFreetime(parent, args, { prisma }, info) {
-    console.log(args);
+  createFreetime(parent, args, { prisma, request }, info) {
+    const employeeId = getUserId(request);
+    const { day_No, schedule_No } = args.data
     return prisma.mutation.createFreetime(
       {
         data: {
-          freetime_next: defaultFreetime,
-          freetime_default: defaultFreetime,
-          useDefault: false,
-          user: {
-            connect: {
-              employeeId: args.employeeId,
-            },
-          },
+          day_No,
+        availability: "no",
+        user: {
+          connect: {
+            employeeId
+          }
         },
+        schedule: {
+          connect: {
+            schedule_No
+          }
+        }
+        }
       },
       info
     );
   },
   async updateFreetime(parent, args, { prisma, request }, info) {
     const employeeId = getUserId(request);
-    const myFreetime = await prisma.query.freetimes(
+    const freetime = await prisma.query.freetimes(
       {
         where: {
           user: {
             employeeId,
           },
+          day_No: args.day_No
         },
       },
       "{id}"
@@ -124,39 +130,27 @@ const Mutation = {
     return prisma.mutation.updateFreetime(
       {
         where: {
-          id: myFreetime[0].id,
+          id: freetime[0].id,
         },
         data: args.data,
       },
       info
     );
   },
-  async resetFreetime(parent, args, { prisma, request }, info) {
+  deleteManyFreetimes(parent, args, { prisma, request }, info) {
     const employeeId = getUserId(request);
-    const myFreetime = await prisma.query.freetimes(
-      {
-        where: {
-          user: {
-            employeeId,
-          },
+    return prisma.mutation.deleteManyFreetimes({
+      where: {
+        schedule: {
+          schedule_No: args.schedule_No
         },
-      },
-      "{ id }"
-    );
-    let data = {};
-    args.resetItem === "freetime_next"
-      ? (data.freetime_next = defaultFreetime)
-      : (data = { freetime_default: defaultFreetime, useDefault: false });
-    return prisma.mutation.updateFreetime(
-      {
-        where: {
-          id: myFreetime[0].id,
-        },
-        data,
-      },
-      info
-    );
+        user: {
+          employeeId
+        }
+      }
+    }, "{count}")
   },
+
   //---------------------------  Schedule ----------------------------//
 
   async createSchedule(parent, args, { prisma, request }, info) {
