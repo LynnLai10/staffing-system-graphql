@@ -28,17 +28,16 @@ const Query = {
   freetimes(parent, args, { prisma }, info) {
     return prisma.query.freetimes({ 
         where: {
-            schedule: {
-                schedule_No: args.schedule_No
+            schedule_day: {
+              day_No: args.day_No
             },
             availability: args.availability,
-            day_No: args.day_No
         }
      }, info);
   },
   async myFreetimes(parent, args, { prisma, request }, info) {
     const employeeId = await getUserId(request);
-    const res  = await prisma.query.freetimes(
+    const res = await prisma.query.freetimes(
       {
         where: {
           user: {
@@ -51,19 +50,22 @@ const Query = {
       },
       info
     );
-    return res.map((item, index) =>
-      res.find(
-        (item) => item.day_No.split("_")[1] === index.toString()
-      )
-    );
+    return res
+    // .map((item, index) =>
+    //   res.find(
+    //     (item) => item.schedule_day.day_No.split("_")[1] === index.toString()
+    //   )
+    // );
   },
   //----------------------  Schedule  -------------------------//
-  schedule(parent, args, { prisma, request }, info) {
-    return prisma.query.schedule(
+  schedules(parent, args, { prisma, request }, info) {
+    return prisma.query.schedules(
       {
-        orderBy: args.orderBy,
         where: {
           schedule_No: args.schedule_No,
+          // freetimes_some: {
+          //   availability: args.availability
+          // }
         },
       },
       info

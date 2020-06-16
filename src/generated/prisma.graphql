@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Fri Jun 12 2020 13:50:25 GMT+0800 (China Standard Time)
+# timestamp: Tue Jun 16 2020 21:25:14 GMT+0800 (China Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -34,10 +34,10 @@ scalar DateTime
 
 type Freetime implements Node {
   id: ID!
-  day_No: String!
   availability: String!
   user: User!
-  schedule: Schedule!
+  schedule: Schedule
+  schedule_day: Schedule_Day
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -54,10 +54,15 @@ type FreetimeConnection {
 
 input FreetimeCreateInput {
   id: ID
-  day_No: String!
   availability: String!
   user: UserCreateOneWithoutFreetimesInput!
-  schedule: ScheduleCreateOneWithoutFreetimesInput!
+  schedule: ScheduleCreateOneWithoutFreetimesInput
+  schedule_day: Schedule_DayCreateOneWithoutFreetimesInput
+}
+
+input FreetimeCreateManyWithoutSchedule_dayInput {
+  create: [FreetimeCreateWithoutSchedule_dayInput!]
+  connect: [FreetimeWhereUniqueInput!]
 }
 
 input FreetimeCreateManyWithoutScheduleInput {
@@ -70,18 +75,25 @@ input FreetimeCreateManyWithoutUserInput {
   connect: [FreetimeWhereUniqueInput!]
 }
 
-input FreetimeCreateWithoutScheduleInput {
+input FreetimeCreateWithoutSchedule_dayInput {
   id: ID
-  day_No: String!
   availability: String!
   user: UserCreateOneWithoutFreetimesInput!
+  schedule: ScheduleCreateOneWithoutFreetimesInput
+}
+
+input FreetimeCreateWithoutScheduleInput {
+  id: ID
+  availability: String!
+  user: UserCreateOneWithoutFreetimesInput!
+  schedule_day: Schedule_DayCreateOneWithoutFreetimesInput
 }
 
 input FreetimeCreateWithoutUserInput {
   id: ID
-  day_No: String!
   availability: String!
-  schedule: ScheduleCreateOneWithoutFreetimesInput!
+  schedule: ScheduleCreateOneWithoutFreetimesInput
+  schedule_day: Schedule_DayCreateOneWithoutFreetimesInput
 }
 
 """An edge in a connection."""
@@ -96,8 +108,6 @@ type FreetimeEdge {
 enum FreetimeOrderByInput {
   id_ASC
   id_DESC
-  day_No_ASC
-  day_No_DESC
   availability_ASC
   availability_DESC
   createdAt_ASC
@@ -108,7 +118,6 @@ enum FreetimeOrderByInput {
 
 type FreetimePreviousValues {
   id: ID!
-  day_No: String!
   availability: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -163,46 +172,6 @@ input FreetimeScalarWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  day_No: String
-
-  """All values that are not equal to given value."""
-  day_No_not: String
-
-  """All values that are contained in given list."""
-  day_No_in: [String!]
-
-  """All values that are not contained in given list."""
-  day_No_not_in: [String!]
-
-  """All values less than the given value."""
-  day_No_lt: String
-
-  """All values less than or equal the given value."""
-  day_No_lte: String
-
-  """All values greater than the given value."""
-  day_No_gt: String
-
-  """All values greater than or equal the given value."""
-  day_No_gte: String
-
-  """All values containing the given string."""
-  day_No_contains: String
-
-  """All values not containing the given string."""
-  day_No_not_contains: String
-
-  """All values starting with the given string."""
-  day_No_starts_with: String
-
-  """All values not starting with the given string."""
-  day_No_not_starts_with: String
-
-  """All values ending with the given string."""
-  day_No_ends_with: String
-
-  """All values not ending with the given string."""
-  day_No_not_ends_with: String
   availability: String
 
   """All values that are not equal to given value."""
@@ -327,20 +296,30 @@ input FreetimeSubscriptionWhereInput {
 }
 
 input FreetimeUpdateInput {
-  day_No: String
   availability: String
   user: UserUpdateOneRequiredWithoutFreetimesInput
-  schedule: ScheduleUpdateOneRequiredWithoutFreetimesInput
+  schedule: ScheduleUpdateOneWithoutFreetimesInput
+  schedule_day: Schedule_DayUpdateOneWithoutFreetimesInput
 }
 
 input FreetimeUpdateManyDataInput {
-  day_No: String
   availability: String
 }
 
 input FreetimeUpdateManyMutationInput {
-  day_No: String
   availability: String
+}
+
+input FreetimeUpdateManyWithoutSchedule_dayInput {
+  create: [FreetimeCreateWithoutSchedule_dayInput!]
+  connect: [FreetimeWhereUniqueInput!]
+  set: [FreetimeWhereUniqueInput!]
+  disconnect: [FreetimeWhereUniqueInput!]
+  delete: [FreetimeWhereUniqueInput!]
+  update: [FreetimeUpdateWithWhereUniqueWithoutSchedule_dayInput!]
+  updateMany: [FreetimeUpdateManyWithWhereNestedInput!]
+  deleteMany: [FreetimeScalarWhereInput!]
+  upsert: [FreetimeUpsertWithWhereUniqueWithoutSchedule_dayInput!]
 }
 
 input FreetimeUpdateManyWithoutScheduleInput {
@@ -372,16 +351,27 @@ input FreetimeUpdateManyWithWhereNestedInput {
   data: FreetimeUpdateManyDataInput!
 }
 
-input FreetimeUpdateWithoutScheduleDataInput {
-  day_No: String
+input FreetimeUpdateWithoutSchedule_dayDataInput {
   availability: String
   user: UserUpdateOneRequiredWithoutFreetimesInput
+  schedule: ScheduleUpdateOneWithoutFreetimesInput
+}
+
+input FreetimeUpdateWithoutScheduleDataInput {
+  availability: String
+  user: UserUpdateOneRequiredWithoutFreetimesInput
+  schedule_day: Schedule_DayUpdateOneWithoutFreetimesInput
 }
 
 input FreetimeUpdateWithoutUserDataInput {
-  day_No: String
   availability: String
-  schedule: ScheduleUpdateOneRequiredWithoutFreetimesInput
+  schedule: ScheduleUpdateOneWithoutFreetimesInput
+  schedule_day: Schedule_DayUpdateOneWithoutFreetimesInput
+}
+
+input FreetimeUpdateWithWhereUniqueWithoutSchedule_dayInput {
+  where: FreetimeWhereUniqueInput!
+  data: FreetimeUpdateWithoutSchedule_dayDataInput!
 }
 
 input FreetimeUpdateWithWhereUniqueWithoutScheduleInput {
@@ -392,6 +382,12 @@ input FreetimeUpdateWithWhereUniqueWithoutScheduleInput {
 input FreetimeUpdateWithWhereUniqueWithoutUserInput {
   where: FreetimeWhereUniqueInput!
   data: FreetimeUpdateWithoutUserDataInput!
+}
+
+input FreetimeUpsertWithWhereUniqueWithoutSchedule_dayInput {
+  where: FreetimeWhereUniqueInput!
+  update: FreetimeUpdateWithoutSchedule_dayDataInput!
+  create: FreetimeCreateWithoutSchedule_dayInput!
 }
 
 input FreetimeUpsertWithWhereUniqueWithoutScheduleInput {
@@ -455,46 +451,6 @@ input FreetimeWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  day_No: String
-
-  """All values that are not equal to given value."""
-  day_No_not: String
-
-  """All values that are contained in given list."""
-  day_No_in: [String!]
-
-  """All values that are not contained in given list."""
-  day_No_not_in: [String!]
-
-  """All values less than the given value."""
-  day_No_lt: String
-
-  """All values less than or equal the given value."""
-  day_No_lte: String
-
-  """All values greater than the given value."""
-  day_No_gt: String
-
-  """All values greater than or equal the given value."""
-  day_No_gte: String
-
-  """All values containing the given string."""
-  day_No_contains: String
-
-  """All values not containing the given string."""
-  day_No_not_contains: String
-
-  """All values starting with the given string."""
-  day_No_starts_with: String
-
-  """All values not starting with the given string."""
-  day_No_not_starts_with: String
-
-  """All values ending with the given string."""
-  day_No_ends_with: String
-
-  """All values not ending with the given string."""
-  day_No_not_ends_with: String
   availability: String
 
   """All values that are not equal to given value."""
@@ -581,6 +537,7 @@ input FreetimeWhereInput {
   updatedAt_gte: DateTime
   user: UserWhereInput
   schedule: ScheduleWhereInput
+  schedule_day: Schedule_DayWhereInput
 }
 
 input FreetimeWhereUniqueInput {
@@ -707,6 +664,7 @@ type Schedule_Day implements Node {
   day_No: String!
   schedule_staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff!]
   schedule: Schedule!
+  freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime!]
 }
 
 """A connection to a list of items."""
@@ -724,6 +682,7 @@ input Schedule_DayCreateInput {
   day_No: String!
   schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dayInput
   schedule: ScheduleCreateOneWithoutSchedule_daysInput!
+  freetimes: FreetimeCreateManyWithoutSchedule_dayInput
 }
 
 input Schedule_DayCreateManyWithoutScheduleInput {
@@ -731,21 +690,35 @@ input Schedule_DayCreateManyWithoutScheduleInput {
   connect: [Schedule_DayWhereUniqueInput!]
 }
 
+input Schedule_DayCreateOneWithoutFreetimesInput {
+  create: Schedule_DayCreateWithoutFreetimesInput
+  connect: Schedule_DayWhereUniqueInput
+}
+
 input Schedule_DayCreateOneWithoutSchedule_staffsInput {
   create: Schedule_DayCreateWithoutSchedule_staffsInput
   connect: Schedule_DayWhereUniqueInput
+}
+
+input Schedule_DayCreateWithoutFreetimesInput {
+  id: ID
+  day_No: String!
+  schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dayInput
+  schedule: ScheduleCreateOneWithoutSchedule_daysInput!
 }
 
 input Schedule_DayCreateWithoutSchedule_staffsInput {
   id: ID
   day_No: String!
   schedule: ScheduleCreateOneWithoutSchedule_daysInput!
+  freetimes: FreetimeCreateManyWithoutSchedule_dayInput
 }
 
 input Schedule_DayCreateWithoutScheduleInput {
   id: ID
   day_No: String!
   schedule_staffs: Schedule_StaffCreateManyWithoutSchedule_dayInput
+  freetimes: FreetimeCreateManyWithoutSchedule_dayInput
 }
 
 """An edge in a connection."""
@@ -901,6 +874,7 @@ input Schedule_DayUpdateInput {
   day_No: String
   schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dayInput
   schedule: ScheduleUpdateOneRequiredWithoutSchedule_daysInput
+  freetimes: FreetimeUpdateManyWithoutSchedule_dayInput
 }
 
 input Schedule_DayUpdateManyDataInput {
@@ -935,19 +909,41 @@ input Schedule_DayUpdateOneRequiredWithoutSchedule_staffsInput {
   upsert: Schedule_DayUpsertWithoutSchedule_staffsInput
 }
 
+input Schedule_DayUpdateOneWithoutFreetimesInput {
+  create: Schedule_DayCreateWithoutFreetimesInput
+  connect: Schedule_DayWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: Schedule_DayUpdateWithoutFreetimesDataInput
+  upsert: Schedule_DayUpsertWithoutFreetimesInput
+}
+
+input Schedule_DayUpdateWithoutFreetimesDataInput {
+  day_No: String
+  schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dayInput
+  schedule: ScheduleUpdateOneRequiredWithoutSchedule_daysInput
+}
+
 input Schedule_DayUpdateWithoutSchedule_staffsDataInput {
   day_No: String
   schedule: ScheduleUpdateOneRequiredWithoutSchedule_daysInput
+  freetimes: FreetimeUpdateManyWithoutSchedule_dayInput
 }
 
 input Schedule_DayUpdateWithoutScheduleDataInput {
   day_No: String
   schedule_staffs: Schedule_StaffUpdateManyWithoutSchedule_dayInput
+  freetimes: FreetimeUpdateManyWithoutSchedule_dayInput
 }
 
 input Schedule_DayUpdateWithWhereUniqueWithoutScheduleInput {
   where: Schedule_DayWhereUniqueInput!
   data: Schedule_DayUpdateWithoutScheduleDataInput!
+}
+
+input Schedule_DayUpsertWithoutFreetimesInput {
+  update: Schedule_DayUpdateWithoutFreetimesDataInput!
+  create: Schedule_DayCreateWithoutFreetimesInput!
 }
 
 input Schedule_DayUpsertWithoutSchedule_staffsInput {
@@ -1054,6 +1050,9 @@ input Schedule_DayWhereInput {
   schedule_staffs_some: Schedule_StaffWhereInput
   schedule_staffs_none: Schedule_StaffWhereInput
   schedule: ScheduleWhereInput
+  freetimes_every: FreetimeWhereInput
+  freetimes_some: FreetimeWhereInput
+  freetimes_none: FreetimeWhereInput
 }
 
 input Schedule_DayWhereUniqueInput {
@@ -1866,13 +1865,6 @@ input ScheduleUpdateManyMutationInput {
   schedule_No: String
 }
 
-input ScheduleUpdateOneRequiredWithoutFreetimesInput {
-  create: ScheduleCreateWithoutFreetimesInput
-  connect: ScheduleWhereUniqueInput
-  update: ScheduleUpdateWithoutFreetimesDataInput
-  upsert: ScheduleUpsertWithoutFreetimesInput
-}
-
 input ScheduleUpdateOneRequiredWithoutSchedule_daysInput {
   create: ScheduleCreateWithoutSchedule_daysInput
   connect: ScheduleWhereUniqueInput
@@ -1885,6 +1877,15 @@ input ScheduleUpdateOneRequiredWithoutSchedule_staffsInput {
   connect: ScheduleWhereUniqueInput
   update: ScheduleUpdateWithoutSchedule_staffsDataInput
   upsert: ScheduleUpsertWithoutSchedule_staffsInput
+}
+
+input ScheduleUpdateOneWithoutFreetimesInput {
+  create: ScheduleCreateWithoutFreetimesInput
+  connect: ScheduleWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: ScheduleUpdateWithoutFreetimesDataInput
+  upsert: ScheduleUpsertWithoutFreetimesInput
 }
 
 input ScheduleUpdateWithoutFreetimesDataInput {

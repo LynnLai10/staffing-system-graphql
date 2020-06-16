@@ -3,30 +3,43 @@
 type Query {
   users(query: String, orderBy: UserOrderByInput): [User]
   me: User
-  freetimes(schedule_No: String!, availability: String!, day_No: String!, orderBy: FreetimeOrderByInput): [Freetime]
+  freetimes(day_No: String, availability: String, orderBy: FreetimeOrderByInput): [Freetime]
   myFreetimes(schedule_No: String!): [Freetime]
   schedule_interval(start: String!, end: String!): Schedule_Interval
-  schedule(schedule_No: String!): Schedule
+  schedules(schedule_No: String, availability: String): [Schedule]
   schedule_days(schedule_No: String!): [Schedule_Day]
   schedule_staff(id: ID!): Schedule_Staff
   schedule_staffs(day_No: String!): [Schedule_Staff]
 }
 
 type Mutation {
-  createUser(auth: String!, data: CreateUserInput!): AuthPayload!
-  updateUser(employeeId: String!, data: UpdateUserInput!): User
+  createUser(auth: String!, data: CreateUserInput!): User
+  updateUser(employeeId: String, data: UpdateUserInput!): User
   deleteUser(employeeId: String!): User
+  changePassword(employeeId: String!, data: ChangePasswordInput!): User
   login(data: LoginInput!): AuthPayload!
-  createFreetime(data: createFreetimeInput): Freetime
-  updateFreetime(day_No: String!, data: updateFreetimeInput): Freetime
-  deleteManyFreetimes(schedule_No: String!): Long
-  createSchedule(schedule_No: String!): Schedule
+
+  createFreetimes(schedule_No: String!): Aggregate
+  updateFreetime(id: ID, data: updateFreetimeInput): Freetime
+
+  createSchedule(schedule_No: String!): Aggregate
+  createSchedule_Default: Aggregate
+  duplicateSchedule_Default: Aggregate
   deleteSchedule(schedule_No: String!): Schedule
-  createSchedule_Day(schedule_No: String!, day_No:String!): Schedule_Day
+
+  createSchedule_Day_Batch(schedule_No: String!): Aggregate
+
   createSchedule_Interval(start: String!, end: String!): Schedule_Interval
+
   createSchedule_Staff(data: createSchedule_StaffInput!): Schedule_Staff
   updateSchedule_Staff(data: updateSchedule_StaffInput!): Schedule_Staff
   deleteSchedule_Staff(id: ID!): Schedule_Staff
+
+  updateSchedule_Staffs(oldStaffs: [UpdateScheduleStaffsInput], newStaffs: [UpdateScheduleStaffsInput]): Aggregate
+}
+
+type Aggregate {
+  count: Int!
 }
 
 type AuthPayload {
@@ -51,10 +64,11 @@ input UpdateUserInput {
   useDefaultFreetime: Boolean
 }
 
-input createFreetimeInput {
-  day_No: String! 
-  schedule_No: String!
+input ChangePasswordInput {
+  currentPassword: String!
+  password: String!
 }
+
 
 input updateFreetimeInput {
   availability: String
@@ -72,6 +86,14 @@ input createSchedule_StaffInput {
 input updateSchedule_StaffInput {
   id: ID!
   employeeId: String
+  interval_No: String
+}
+
+input UpdateScheduleStaffsInput {
+  id: ID
+  day_No: String
+  employeeId: String
+  position: String
   interval_No: String
 }
 
@@ -104,10 +126,10 @@ type Schedule {
 
 type Freetime {
   id: ID!
-  day_No: String!
   availability: String!
   user: User!
   schedule: Schedule!
+  schedule_day: Schedule_Day
   updatedAt: String!
   createdAt: String!
 }
@@ -117,6 +139,7 @@ type Schedule_Day {
   day_No: String!
   schedule_staffs: [Schedule_Staff!]!
   schedule: Schedule!
+  freetimes: [Freetime]
 }
 
 type Schedule_Staff {
