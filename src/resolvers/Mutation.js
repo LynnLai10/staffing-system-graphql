@@ -148,7 +148,7 @@ const Mutation = {
         await prisma.mutation.createFreetime(
           {
             data: {
-              availability: "no",
+              availability: "full",
               user: {
                 connect: {
                   employeeId,
@@ -191,72 +191,44 @@ const Mutation = {
       throw new Error("Permission denied.");
     }
   },
+  async deleteFreetimes(parent, args, { prisma, request }, info) {
+    const employeeId = getUserId(request);
+    if (employeeId) {
+      return prisma.mutation.updateManyFreetimes({
+        where: {
+          schedule: {
+            schedule_No: args.schedule_No
+          }
+        },
+        data: {
+          availability: "full"
+        }
+      }, info);
+    } else {
+      throw new Error("Permission denied.");
+    }
+  },
 
   //---------------------------  Schedule ----------------------------//
 
   async createSchedule(parent, args, { prisma, request }, info) {
     let count = 0;
-    const defaultSchedule = await prisma.query.schedule(
-      {
-        where: {
-          schedule_No: "0",
-        },
-      },
-      `{
-        schedule_No
-        schedule_days {
-          day_No
-          schedule_staffs {
-            staff {
-              employeeId
-            }
-            position
-            schedule_interval {
-              interval_No
-            }
-          }
-        }
-      }`
-    );
-    console.log(defaultSchedule);
+    const { schedule_No } = args
+    const schedule_days_length = schedule_No === "0" ? 7 : 14
     //create schedule
     await prisma.mutation.createSchedule({
       data: {
-        schedule_No: args.schedule_No,
+        schedule_No,
       },
     });
     //create schedule_day
-    for (let i = 0; i < 14; i++) {
-      await prisma.mutation.createSchedule_Day({
-        data: {
-          day_No: `${schedule_No}_${i}`,
-          schedule: {
-            connect: {
-              schedule_No: args.schedule_No,
-            },
-          },
-        },
-      });
-      count++;
-    }
-    return { count };
-  },
-  async createSchedule_Default(parent, args, { prisma, request }, info) {
-    let count = 0;
-    //create schedule
-    await prisma.mutation.createSchedule({
-      data: {
-        schedule_No: "0",
-      },
-    });
-    //create schedule_day
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < schedule_days_length; i++) {
       await prisma.mutation.createSchedule_Day({
         data: {
           day_No: `0_${i}`,
           schedule: {
             connect: {
-              schedule_No: "0",
+              schedule_No,
             },
           },
         },
@@ -264,82 +236,6 @@ const Mutation = {
       count++;
     }
     return { count };
-  },
-  async duplicateSchedule_Default(parent, args, { prisma, request }, info) {
-    let count = 0;
-    //fetch default schedule
-    const defaultSchedule = await prisma.query.schedule(
-      {
-        where: {
-          schedule_No: "0",
-        },
-      },
-      `{
-        schedule_days {
-          day_No
-          schedule_staffs {
-            staff {
-              employeeId
-            }
-            position
-            schedule_interval {
-              interval_No
-            }
-          }
-        }
-      }`
-    );
-    for (let i = 0; i < 7; i++) {
-      const k = i + 7;
-      const { schedule_staffs } = defaultSchedule.schedule_days[i];
-      const { employeeId, position, interval_No } = schedule_staffs;
-      for (let j = 0; j < schedule_staffs.length; j++) {
-        let data = {
-          position,
-          schedule_interval: {
-            connect: {
-              interval_No,
-            },
-          },
-          schedule_day: {
-            connect: {
-              day_No: `0_${k}`,
-            },
-          },
-          Schedule: {
-            connect: {
-              schedule_No,
-            },
-          },
-        };
-        if (employeeId) {
-          data = {
-            ...data,
-            staff: {
-              connect: {
-                employeeId,
-              },
-            },
-          };
-        }
-        await prisma.mutation.createSchedule_Staff({
-          data,
-        });
-      }
-    }
-  },
-  async deleteSchedule(parent, args, { prisma, request }, info) {
-    const { schedule_No } = args;
-    const isExist = await prisma.exists.Schedule({
-      schedule_No,
-    });
-    if (isExist) {
-      return prisma.mutation.deleteSchedule({
-        where: {
-          schedule_No,
-        },
-      });
-    }
   },
   async createSchedule_Day_Batch(parent, args, { prisma, request }, info) {
     let count = 0;
@@ -358,7 +254,6 @@ const Mutation = {
     }
     return { count };
   },
-
   async createSchedule_Interval(parent, args, { prisma, request }, info) {
     const { start, end } = args;
     const interval_No = start + "-" + end;
@@ -368,105 +263,6 @@ const Mutation = {
           interval_No,
           start,
           end,
-        },
-      },
-      info
-    );
-  },
-  async createSchedule_Staff(parent, args, { prisma, request }, info) {
-    const {
-      day_No,
-      employeeId,
-      position,
-      interval_No,
-      schedule_No,
-    } = args.data;
-    const isIntervalExist = await prisma.exists.Schedule_Interval({
-      interval_No,
-    });
-    if (!isIntervalExist) {
-      await prisma.mutation.createSchedule_Interval({
-        data: {
-          interval_No,
-          start: interval_No.split("-")[0],
-          end: interval_No.split("-")[1],
-        },
-      });
-    }
-    let data = {
-      schedule_day: {
-        connect: {
-          day_No,
-        },
-      },
-      schedule: {
-        connect: {
-          schedule_No,
-        },
-      },
-      position,
-      schedule_interval: {
-        connect: {
-          interval_No,
-        },
-      },
-    };
-    if (employeeId) {
-      data = {
-        ...data,
-        staff: {
-          connect: {
-            employeeId,
-          },
-        },
-      };
-    }
-    return prisma.mutation.createSchedule_Staff({ data }, info);
-  },
-  async updateSchedule_Staff(parent, args, { prisma, request }, info) {
-    const { id, employeeId, interval_No } = args.data;
-    const isIntervalExist = await prisma.exists.Schedule_Interval({
-      interval_No,
-    });
-    if (!isIntervalExist) {
-      await prisma.mutation.createSchedule_Interval({
-        data: {
-          interval_No,
-          start: interval_No.split("-")[0],
-          end: interval_No.split("-")[1],
-        },
-      });
-    }
-    let data = {
-      where: {
-        id,
-      },
-      data: {
-        schedule_interval: {
-          connect: {
-            interval_No,
-          },
-        },
-      },
-    };
-
-    if (employeeId) {
-      data.data = {
-        ...data.data,
-        staff: {
-          connect: {
-            employeeId,
-          },
-        },
-      };
-    }
-    return prisma.mutation.updateSchedule_Staff(data, info);
-  },
-  deleteSchedule_Staff(parent, args, { prisma, request }, info) {
-    return prisma.mutation.deleteSchedule_Staff(
-      {
-        where: {
-          id: args.id,
         },
       },
       info
@@ -586,6 +382,15 @@ const Mutation = {
     }
     return { count: 0 };
   },
+  deleteSchedule_Staffs(parent, args, { prisma, request }, info) {
+    return prisma.mutation.deleteManySchedule_Staffs({
+      where: {
+        schedule: {
+          schedule_No: args.schedule_No
+        }
+      }
+    }, info)
+  }
 };
 
 export { Mutation as default };

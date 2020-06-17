@@ -71,6 +71,16 @@ const Query = {
       info
     );
   },
+  schedule(parent, args, { prisma, request }, info) {
+    return prisma.query.schedule(
+      {
+        where: {
+          schedule_No: args.schedule_No
+        },
+      },
+      info
+    );
+  },
   async schedule_days(parent, args, { prisma, request }, info) {
     const res = await prisma.query.schedule_Days(
       {
