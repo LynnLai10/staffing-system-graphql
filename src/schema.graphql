@@ -5,12 +5,7 @@ type Query {
   me: User
   freetimes(day_No: String, availability: String, orderBy: FreetimeOrderByInput): [Freetime]
   myFreetimes(schedule_No: String!): [Freetime]
-  schedule_interval(start: String!, end: String!): Schedule_Interval
-  schedules(schedule_No: String, availability: String): [Schedule]
   schedule(schedule_No: String!): Schedule
-  schedule_days(schedule_No: String!): [Schedule_Day]
-  schedule_staff(id: ID!): Schedule_Staff
-  schedule_staffs(day_No: String!): [Schedule_Staff]
 }
 
 type Mutation {
@@ -25,10 +20,7 @@ type Mutation {
   deleteFreetimes(schedule_No: String!): Aggregate
 
   createSchedule(schedule_No: String!): Aggregate
-
   createSchedule_Day_Batch(schedule_No: String!): Aggregate
-
-  createSchedule_Interval(start: String!, end: String!): Schedule_Interval
 
   updateSchedule_Staffs(oldStaffs: [UpdateScheduleStaffsInput], newStaffs: [UpdateScheduleStaffsInput]): Aggregate
   deleteSchedule_Staffs(schedule_No: String!): Aggregate

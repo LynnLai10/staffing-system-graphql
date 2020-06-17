@@ -58,78 +58,12 @@ const Query = {
     // );
   },
   //----------------------  Schedule  -------------------------//
-  schedules(parent, args, { prisma, request }, info) {
-    return prisma.query.schedules(
-      {
-        where: {
-          schedule_No: args.schedule_No,
-          // freetimes_some: {
-          //   availability: args.availability
-          // }
-        },
-      },
-      info
-    );
-  },
+
   schedule(parent, args, { prisma, request }, info) {
     return prisma.query.schedule(
       {
         where: {
           schedule_No: args.schedule_No
-        },
-      },
-      info
-    );
-  },
-  async schedule_days(parent, args, { prisma, request }, info) {
-    const res = await prisma.query.schedule_Days(
-      {
-        where: {
-          schedule: {
-            schedule_No: args.schedule_No,
-          },
-        },
-      },
-      info
-    );
-    return res.map((item, index) =>
-      res.find(
-        (item) => item.day_No.split("_")[1] === index.toString()
-      )
-    );
-  },
-  async schedule_staff(parent, args, { prisma, request }, info) {
-    return prisma.query.schedule_Staff(
-      {
-        where: {
-          id: args.id,
-        },
-      },
-      info
-    );
-  },
-  async schedule_staffs(parent, args, { prisma, request }, info) {
-    const res = await prisma.query.schedule_Staffs({
-        where: {
-            schedule_day: {
-                day_No: args.day_No
-            }
-        }
-    },info)
-    return res.sort((a,b) => {
-        if (a.schedule_interval.start === b.schedule_interval.start) {
-            return b.schedule_interval.end - a.schedule_interval.end
-        }
-        return a.schedule_interval.start - b.schedule_interval.start
-    })
-  },
-  schedule_interval(parent, args, { prisma, request }, info) {
-    const { start, end } = args;
-    return prisma.query.schedule_intervals(
-      {
-        where: {
-          start,
-          end,
         },
       },
       info

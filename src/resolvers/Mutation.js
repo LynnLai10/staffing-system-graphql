@@ -254,20 +254,6 @@ const Mutation = {
     }
     return { count };
   },
-  async createSchedule_Interval(parent, args, { prisma, request }, info) {
-    const { start, end } = args;
-    const interval_No = start + "-" + end;
-    return prisma.mutation.createSchedule_Interval(
-      {
-        data: {
-          interval_No,
-          start,
-          end,
-        },
-      },
-      info
-    );
-  },
   async updateSchedule_Staffs(parent, args, { prisma, request }, info) {
     const { oldStaffs, newStaffs } = args;
     //delete Staffs
