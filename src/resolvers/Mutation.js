@@ -149,7 +149,7 @@ const Mutation = {
           {
             data: {
               availability: "full",
-              user: {
+              staff: {
                 connect: {
                   employeeId,
                 },

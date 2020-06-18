@@ -115,7 +115,7 @@ type Schedule {
 type Freetime {
   id: ID!
   availability: String!
-  user: User!
+  staff: User!
   schedule: Schedule!
   schedule_day: Schedule_Day
   updatedAt: String!

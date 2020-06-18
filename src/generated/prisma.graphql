@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Jun 16 2020 21:25:14 GMT+0800 (China Standard Time)
+# timestamp: Fri Jun 19 2020 00:41:54 GMT+0800 (China Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -35,7 +35,7 @@ scalar DateTime
 type Freetime implements Node {
   id: ID!
   availability: String!
-  user: User!
+  staff: User!
   schedule: Schedule
   schedule_day: Schedule_Day
   createdAt: DateTime!
@@ -55,7 +55,7 @@ type FreetimeConnection {
 input FreetimeCreateInput {
   id: ID
   availability: String!
-  user: UserCreateOneWithoutFreetimesInput!
+  staff: UserCreateOneWithoutFreetimesInput!
   schedule: ScheduleCreateOneWithoutFreetimesInput
   schedule_day: Schedule_DayCreateOneWithoutFreetimesInput
 }
@@ -70,26 +70,26 @@ input FreetimeCreateManyWithoutScheduleInput {
   connect: [FreetimeWhereUniqueInput!]
 }
 
-input FreetimeCreateManyWithoutUserInput {
-  create: [FreetimeCreateWithoutUserInput!]
+input FreetimeCreateManyWithoutStaffInput {
+  create: [FreetimeCreateWithoutStaffInput!]
   connect: [FreetimeWhereUniqueInput!]
 }
 
 input FreetimeCreateWithoutSchedule_dayInput {
   id: ID
   availability: String!
-  user: UserCreateOneWithoutFreetimesInput!
+  staff: UserCreateOneWithoutFreetimesInput!
   schedule: ScheduleCreateOneWithoutFreetimesInput
 }
 
 input FreetimeCreateWithoutScheduleInput {
   id: ID
   availability: String!
-  user: UserCreateOneWithoutFreetimesInput!
+  staff: UserCreateOneWithoutFreetimesInput!
   schedule_day: Schedule_DayCreateOneWithoutFreetimesInput
 }
 
-input FreetimeCreateWithoutUserInput {
+input FreetimeCreateWithoutStaffInput {
   id: ID
   availability: String!
   schedule: ScheduleCreateOneWithoutFreetimesInput
@@ -297,7 +297,7 @@ input FreetimeSubscriptionWhereInput {
 
 input FreetimeUpdateInput {
   availability: String
-  user: UserUpdateOneRequiredWithoutFreetimesInput
+  staff: UserUpdateOneRequiredWithoutFreetimesInput
   schedule: ScheduleUpdateOneWithoutFreetimesInput
   schedule_day: Schedule_DayUpdateOneWithoutFreetimesInput
 }
@@ -334,16 +334,16 @@ input FreetimeUpdateManyWithoutScheduleInput {
   upsert: [FreetimeUpsertWithWhereUniqueWithoutScheduleInput!]
 }
 
-input FreetimeUpdateManyWithoutUserInput {
-  create: [FreetimeCreateWithoutUserInput!]
+input FreetimeUpdateManyWithoutStaffInput {
+  create: [FreetimeCreateWithoutStaffInput!]
   connect: [FreetimeWhereUniqueInput!]
   set: [FreetimeWhereUniqueInput!]
   disconnect: [FreetimeWhereUniqueInput!]
   delete: [FreetimeWhereUniqueInput!]
-  update: [FreetimeUpdateWithWhereUniqueWithoutUserInput!]
+  update: [FreetimeUpdateWithWhereUniqueWithoutStaffInput!]
   updateMany: [FreetimeUpdateManyWithWhereNestedInput!]
   deleteMany: [FreetimeScalarWhereInput!]
-  upsert: [FreetimeUpsertWithWhereUniqueWithoutUserInput!]
+  upsert: [FreetimeUpsertWithWhereUniqueWithoutStaffInput!]
 }
 
 input FreetimeUpdateManyWithWhereNestedInput {
@@ -353,17 +353,17 @@ input FreetimeUpdateManyWithWhereNestedInput {
 
 input FreetimeUpdateWithoutSchedule_dayDataInput {
   availability: String
-  user: UserUpdateOneRequiredWithoutFreetimesInput
+  staff: UserUpdateOneRequiredWithoutFreetimesInput
   schedule: ScheduleUpdateOneWithoutFreetimesInput
 }
 
 input FreetimeUpdateWithoutScheduleDataInput {
   availability: String
-  user: UserUpdateOneRequiredWithoutFreetimesInput
+  staff: UserUpdateOneRequiredWithoutFreetimesInput
   schedule_day: Schedule_DayUpdateOneWithoutFreetimesInput
 }
 
-input FreetimeUpdateWithoutUserDataInput {
+input FreetimeUpdateWithoutStaffDataInput {
   availability: String
   schedule: ScheduleUpdateOneWithoutFreetimesInput
   schedule_day: Schedule_DayUpdateOneWithoutFreetimesInput
@@ -379,9 +379,9 @@ input FreetimeUpdateWithWhereUniqueWithoutScheduleInput {
   data: FreetimeUpdateWithoutScheduleDataInput!
 }
 
-input FreetimeUpdateWithWhereUniqueWithoutUserInput {
+input FreetimeUpdateWithWhereUniqueWithoutStaffInput {
   where: FreetimeWhereUniqueInput!
-  data: FreetimeUpdateWithoutUserDataInput!
+  data: FreetimeUpdateWithoutStaffDataInput!
 }
 
 input FreetimeUpsertWithWhereUniqueWithoutSchedule_dayInput {
@@ -396,10 +396,10 @@ input FreetimeUpsertWithWhereUniqueWithoutScheduleInput {
   create: FreetimeCreateWithoutScheduleInput!
 }
 
-input FreetimeUpsertWithWhereUniqueWithoutUserInput {
+input FreetimeUpsertWithWhereUniqueWithoutStaffInput {
   where: FreetimeWhereUniqueInput!
-  update: FreetimeUpdateWithoutUserDataInput!
-  create: FreetimeCreateWithoutUserInput!
+  update: FreetimeUpdateWithoutStaffDataInput!
+  create: FreetimeCreateWithoutStaffInput!
 }
 
 input FreetimeWhereInput {
@@ -535,7 +535,7 @@ input FreetimeWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
-  user: UserWhereInput
+  staff: UserWhereInput
   schedule: ScheduleWhereInput
   schedule_day: Schedule_DayWhereInput
 }
@@ -2070,7 +2070,7 @@ input UserCreateInput {
   useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
-  freetimes: FreetimeCreateManyWithoutUserInput
+  freetimes: FreetimeCreateManyWithoutStaffInput
 }
 
 input UserCreateOneInput {
@@ -2189,7 +2189,7 @@ input UserUpdateDataInput {
   useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
-  freetimes: FreetimeUpdateManyWithoutUserInput
+  freetimes: FreetimeUpdateManyWithoutStaffInput
 }
 
 input UserUpdateInput {
@@ -2201,7 +2201,7 @@ input UserUpdateInput {
   useDefaultFreetime: Boolean
   hiredate: DateTime
   permanentStaff: Boolean
-  freetimes: FreetimeUpdateManyWithoutUserInput
+  freetimes: FreetimeUpdateManyWithoutStaffInput
 }
 
 input UserUpdateManyMutationInput {

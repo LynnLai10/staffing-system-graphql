@@ -41,7 +41,7 @@ const Query = {
           schedule: {
             schedule_No: "0",
           },
-          user: {
+          staff: {
             OR: staffList_useDefault,
           },
         },
@@ -49,7 +49,7 @@ const Query = {
       `{schedule_day {
           day_No
         }
-        user {
+        staff {
           employeeId
           name
           sex
@@ -63,7 +63,7 @@ const Query = {
           schedule: {
             schedule_No: args.schedule_No,
           },
-          user: {
+          staff: {
             NOT: staffList_useDefault,
           },
         },
@@ -71,7 +71,7 @@ const Query = {
       `{schedule_day {
           day_No
         }
-        user {
+        staff {
           employeeId
           name
           sex
@@ -85,7 +85,7 @@ const Query = {
     const res = await prisma.query.freetimes(
       {
         where: {
-          user: {
+          staff: {
             employeeId,
           },
           schedule: {

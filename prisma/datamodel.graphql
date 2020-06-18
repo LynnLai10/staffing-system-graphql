@@ -24,7 +24,7 @@ type Schedule {
 type Freetime {
   id: ID! @id
   availability: String!
-  user: User! @relation(name: "FreetimeToUser", onDelete: SET_NULL)
+  staff: User! @relation(name: "FreetimeToUser", onDelete: SET_NULL)
   schedule: Schedule
   schedule_day: Schedule_Day
   createdAt: DateTime! @createdAt
