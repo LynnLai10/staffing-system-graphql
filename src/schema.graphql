@@ -3,7 +3,7 @@
 type Query {
   users(query: String, orderBy: UserOrderByInput): [User]
   me: User
-  freetimes(day_No: String, availability: String, orderBy: FreetimeOrderByInput): [Freetime]
+  freetimes(schedule_No: String!, orderBy: FreetimeOrderByInput): [Freetime]
   myFreetimes(schedule_No: String!): [Freetime]
   schedule(schedule_No: String!): Schedule
 }

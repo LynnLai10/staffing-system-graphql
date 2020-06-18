@@ -25,15 +25,60 @@ const Query = {
     });
   },
   //----------------------  Freetime  -------------------------//
-  freetimes(parent, args, { prisma }, info) {
-    return prisma.query.freetimes({ 
+  async freetimes(parent, args, { prisma }, info) {
+    const staffList_useDefault = await prisma.query.users(
+      {
         where: {
-            schedule_day: {
-              day_No: args.day_No
-            },
-            availability: args.availability,
+          useDefaultFreetime: true,
+        },
+      },
+      "{employeeId}"
+    );
+    const defaultFreetimes = await prisma.query.freetimes(
+      {
+        where: {
+          availability_not: "no",
+          schedule: {
+            schedule_No: "0",
+          },
+          user: {
+            OR: staffList_useDefault,
+          },
+        },
+      },
+      `{schedule_day {
+          day_No
         }
-     }, info);
+        user {
+          employeeId
+          name
+          sex
+        }
+        availability}`
+    );
+    const nextFreetimes = await prisma.query.freetimes(
+      {
+        where: {
+          availability_not: "no",
+          schedule: {
+            schedule_No: args.schedule_No,
+          },
+          user: {
+            NOT: staffList_useDefault,
+          },
+        },
+      },
+      `{schedule_day {
+          day_No
+        }
+        user {
+          employeeId
+          name
+          sex
+        }
+        availability}`
+    );
+    return defaultFreetimes.concat(nextFreetimes);
   },
   async myFreetimes(parent, args, { prisma, request }, info) {
     const employeeId = await getUserId(request);
@@ -50,7 +95,7 @@ const Query = {
       },
       info
     );
-    return res
+    return res;
     // .map((item, index) =>
     //   res.find(
     //     (item) => item.schedule_day.day_No.split("_")[1] === index.toString()
@@ -63,7 +108,7 @@ const Query = {
     return prisma.query.schedule(
       {
         where: {
-          schedule_No: args.schedule_No
+          schedule_No: args.schedule_No,
         },
       },
       info
