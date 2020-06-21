@@ -113,7 +113,7 @@ const Query = {
       },
       info
     );
-  },
+  }
 };
 
 export { Query as default };

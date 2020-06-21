@@ -122,7 +122,7 @@ const Mutation = {
     const employeeId = getUserId(request);
     const { schedule_No } = args;
     const isFreetimesExist = await prisma.exists.Freetime({
-      user: {
+      staff: {
         employeeId,
       },
       schedule: {

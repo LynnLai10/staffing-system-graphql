@@ -22,7 +22,7 @@ type Mutation {
   createSchedule(schedule_No: String!): Aggregate
   createSchedule_Day_Batch(schedule_No: String!): Aggregate
 
-  updateSchedule_Staffs(oldStaffs: [UpdateScheduleStaffsInput], newStaffs: [UpdateScheduleStaffsInput]): Aggregate
+  updateSchedule_Staffs(oldStaffs: [UpdateSchedule_StaffsInput], newStaffs: [UpdateSchedule_StaffsInput]): Aggregate
   deleteSchedule_Staffs(schedule_No: String!): Aggregate
 }
 
@@ -41,6 +41,8 @@ input CreateUserInput {
   sex: String!
   name: String!
   password: String!
+  hireDate: String!
+  permanentStaff: Boolean!
 }
 
 input UpdateUserInput {
@@ -50,6 +52,8 @@ input UpdateUserInput {
   name: String
   password: String
   useDefaultFreetime: Boolean
+  hireDate: String
+  permanentStaff: Boolean
 }
 
 input ChangePasswordInput {
@@ -63,21 +67,7 @@ input updateFreetimeInput {
   useDefault: Boolean
 }
 
-input createSchedule_StaffInput {
-  day_No: String!
-  schedule_No: String!
-  employeeId: String
-  position: String!
-  interval_No: String!
-}
-
-input updateSchedule_StaffInput {
-  id: ID!
-  employeeId: String
-  interval_No: String
-}
-
-input UpdateScheduleStaffsInput {
+input UpdateSchedule_StaffsInput {
   id: ID
   day_No: String
   employeeId: String
@@ -93,7 +83,7 @@ type User {
   sex: String!
   password: String!
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
   createdAt: String!
   updatedAt: String!

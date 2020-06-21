@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Fri Jun 19 2020 00:41:54 GMT+0800 (China Standard Time)
+# timestamp: Fri Jun 19 2020 18:31:35 GMT+0800 (China Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -2046,7 +2046,7 @@ type User implements Node {
   updatedAt: DateTime!
   useDefaultFreetime: Boolean
   freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime!]
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
 }
 
@@ -2068,7 +2068,7 @@ input UserCreateInput {
   password: String!
   sex: String!
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
   freetimes: FreetimeCreateManyWithoutStaffInput
 }
@@ -2091,7 +2091,7 @@ input UserCreateWithoutFreetimesInput {
   password: String!
   sex: String!
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
 }
 
@@ -2123,8 +2123,8 @@ enum UserOrderByInput {
   updatedAt_DESC
   useDefaultFreetime_ASC
   useDefaultFreetime_DESC
-  hiredate_ASC
-  hiredate_DESC
+  hireDate_ASC
+  hireDate_DESC
   permanentStaff_ASC
   permanentStaff_DESC
 }
@@ -2139,7 +2139,7 @@ type UserPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
 }
 
@@ -2187,7 +2187,7 @@ input UserUpdateDataInput {
   password: String
   sex: String
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
   freetimes: FreetimeUpdateManyWithoutStaffInput
 }
@@ -2199,7 +2199,7 @@ input UserUpdateInput {
   password: String
   sex: String
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
   freetimes: FreetimeUpdateManyWithoutStaffInput
 }
@@ -2211,7 +2211,7 @@ input UserUpdateManyMutationInput {
   password: String
   sex: String
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
 }
 
@@ -2238,7 +2238,7 @@ input UserUpdateWithoutFreetimesDataInput {
   password: String
   sex: String
   useDefaultFreetime: Boolean
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
 }
 
@@ -2549,28 +2549,46 @@ input UserWhereInput {
 
   """All values that are not equal to given value."""
   useDefaultFreetime_not: Boolean
-  hiredate: DateTime
+  hireDate: String
 
   """All values that are not equal to given value."""
-  hiredate_not: DateTime
+  hireDate_not: String
 
   """All values that are contained in given list."""
-  hiredate_in: [DateTime!]
+  hireDate_in: [String!]
 
   """All values that are not contained in given list."""
-  hiredate_not_in: [DateTime!]
+  hireDate_not_in: [String!]
 
   """All values less than the given value."""
-  hiredate_lt: DateTime
+  hireDate_lt: String
 
   """All values less than or equal the given value."""
-  hiredate_lte: DateTime
+  hireDate_lte: String
 
   """All values greater than the given value."""
-  hiredate_gt: DateTime
+  hireDate_gt: String
 
   """All values greater than or equal the given value."""
-  hiredate_gte: DateTime
+  hireDate_gte: String
+
+  """All values containing the given string."""
+  hireDate_contains: String
+
+  """All values not containing the given string."""
+  hireDate_not_contains: String
+
+  """All values starting with the given string."""
+  hireDate_starts_with: String
+
+  """All values not starting with the given string."""
+  hireDate_not_starts_with: String
+
+  """All values ending with the given string."""
+  hireDate_ends_with: String
+
+  """All values not ending with the given string."""
+  hireDate_not_ends_with: String
   permanentStaff: Boolean
 
   """All values that are not equal to given value."""

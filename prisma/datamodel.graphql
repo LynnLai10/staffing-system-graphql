@@ -9,7 +9,7 @@ type User {
   updatedAt: DateTime! @updatedAt
   useDefaultFreetime: Boolean
   freetimes: [Freetime!]! @relation(name: "FreetimeToUser", onDelete: CASCADE)
-  hiredate: DateTime
+  hireDate: String
   permanentStaff: Boolean
 }
 
