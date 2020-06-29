@@ -60,7 +60,7 @@ const Mutation = {
         employeeId
       },
       data: {
-        lastLogin: moment().toString()
+        lastLogin: moment().format().toString()
       }
     })
     console.log(user)
