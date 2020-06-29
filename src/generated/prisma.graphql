@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Fri Jun 19 2020 18:31:35 GMT+0800 (China Standard Time)
+# timestamp: Mon Jun 29 2020 21:16:37 GMT+1000 (Australian Eastern Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -2046,8 +2046,9 @@ type User implements Node {
   updatedAt: DateTime!
   useDefaultFreetime: Boolean
   freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime!]
-  hireDate: String
-  permanentStaff: Boolean
+  hireDate: String!
+  permanentStaff: Boolean!
+  lastLogin: String
 }
 
 """A connection to a list of items."""
@@ -2068,8 +2069,9 @@ input UserCreateInput {
   password: String!
   sex: String!
   useDefaultFreetime: Boolean
-  hireDate: String
-  permanentStaff: Boolean
+  hireDate: String!
+  permanentStaff: Boolean!
+  lastLogin: String
   freetimes: FreetimeCreateManyWithoutStaffInput
 }
 
@@ -2091,8 +2093,9 @@ input UserCreateWithoutFreetimesInput {
   password: String!
   sex: String!
   useDefaultFreetime: Boolean
-  hireDate: String
-  permanentStaff: Boolean
+  hireDate: String!
+  permanentStaff: Boolean!
+  lastLogin: String
 }
 
 """An edge in a connection."""
@@ -2127,6 +2130,8 @@ enum UserOrderByInput {
   hireDate_DESC
   permanentStaff_ASC
   permanentStaff_DESC
+  lastLogin_ASC
+  lastLogin_DESC
 }
 
 type UserPreviousValues {
@@ -2139,8 +2144,9 @@ type UserPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   useDefaultFreetime: Boolean
-  hireDate: String
-  permanentStaff: Boolean
+  hireDate: String!
+  permanentStaff: Boolean!
+  lastLogin: String
 }
 
 type UserSubscriptionPayload {
@@ -2189,6 +2195,7 @@ input UserUpdateDataInput {
   useDefaultFreetime: Boolean
   hireDate: String
   permanentStaff: Boolean
+  lastLogin: String
   freetimes: FreetimeUpdateManyWithoutStaffInput
 }
 
@@ -2201,6 +2208,7 @@ input UserUpdateInput {
   useDefaultFreetime: Boolean
   hireDate: String
   permanentStaff: Boolean
+  lastLogin: String
   freetimes: FreetimeUpdateManyWithoutStaffInput
 }
 
@@ -2213,6 +2221,7 @@ input UserUpdateManyMutationInput {
   useDefaultFreetime: Boolean
   hireDate: String
   permanentStaff: Boolean
+  lastLogin: String
 }
 
 input UserUpdateOneInput {
@@ -2240,6 +2249,7 @@ input UserUpdateWithoutFreetimesDataInput {
   useDefaultFreetime: Boolean
   hireDate: String
   permanentStaff: Boolean
+  lastLogin: String
 }
 
 input UserUpsertNestedInput {
@@ -2593,6 +2603,46 @@ input UserWhereInput {
 
   """All values that are not equal to given value."""
   permanentStaff_not: Boolean
+  lastLogin: String
+
+  """All values that are not equal to given value."""
+  lastLogin_not: String
+
+  """All values that are contained in given list."""
+  lastLogin_in: [String!]
+
+  """All values that are not contained in given list."""
+  lastLogin_not_in: [String!]
+
+  """All values less than the given value."""
+  lastLogin_lt: String
+
+  """All values less than or equal the given value."""
+  lastLogin_lte: String
+
+  """All values greater than the given value."""
+  lastLogin_gt: String
+
+  """All values greater than or equal the given value."""
+  lastLogin_gte: String
+
+  """All values containing the given string."""
+  lastLogin_contains: String
+
+  """All values not containing the given string."""
+  lastLogin_not_contains: String
+
+  """All values starting with the given string."""
+  lastLogin_starts_with: String
+
+  """All values not starting with the given string."""
+  lastLogin_not_starts_with: String
+
+  """All values ending with the given string."""
+  lastLogin_ends_with: String
+
+  """All values not ending with the given string."""
+  lastLogin_not_ends_with: String
   freetimes_every: FreetimeWhereInput
   freetimes_some: FreetimeWhereInput
   freetimes_none: FreetimeWhereInput

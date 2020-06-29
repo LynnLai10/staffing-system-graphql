@@ -1,3 +1,4 @@
+import moment from 'moment'
 import bcrypt from "bcryptjs";
 import hashPassword from "../utils/hashPassword";
 import generateToken from "../utils/generateToken";
@@ -37,9 +38,10 @@ const Mutation = {
     }
   },
   async login(parent, args, { prisma }, info) {
-    const user = await prisma.query.user({
+    const { employeeId, password } = args.data
+    let user = await prisma.query.user({
       where: {
-        employeeId: args.data.employeeId,
+        employeeId,
       },
     });
 
@@ -47,12 +49,21 @@ const Mutation = {
       throw new Error("Unable to Login!");
     }
 
-    const isMatch = await bcrypt.compare(args.data.password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       throw new Error("Unable to Login!");
     }
 
+    user = await prisma.mutation.updateUser({
+      where: {
+        employeeId
+      },
+      data: {
+        lastLogin: moment().toString()
+      }
+    })
+    console.log(user)
     return {
       user,
       token: generateToken(user.employeeId),

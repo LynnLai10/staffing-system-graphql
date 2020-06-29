@@ -13,7 +13,7 @@ type Mutation {
   updateUser(employeeId: String, data: UpdateUserInput!): User
   deleteUser(employeeId: String!): User
   changePassword(employeeId: String!, data: ChangePasswordInput!): User
-  login(data: LoginInput!): AuthPayload!
+  login(data: LoginInput!): AuthPayload
 
   createFreetimes(schedule_No: String!): Aggregate
   updateFreetime(id: ID, data: updateFreetimeInput): Freetime
@@ -83,8 +83,9 @@ type User {
   sex: String!
   password: String!
   useDefaultFreetime: Boolean
-  hireDate: String
-  permanentStaff: Boolean
+  hireDate: String!
+  permanentStaff: Boolean!
+  lastLogin: String
   createdAt: String!
   updatedAt: String!
 }
