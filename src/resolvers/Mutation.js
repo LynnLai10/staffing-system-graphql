@@ -214,7 +214,6 @@ const Mutation = {
   async createSchedule(parent, args, { prisma, request }, info) {
     let count = 0;
     const { schedule_No } = args
-    const schedule_days_length = schedule_No === "0" ? 7 : 14
     //create schedule
     await prisma.mutation.createSchedule({
       data: {
@@ -222,10 +221,10 @@ const Mutation = {
       },
     });
     //create schedule_day
-    for (let i = 0; i < schedule_days_length; i++) {
+    for (let i = 0; i < 14; i++) {
       await prisma.mutation.createSchedule_Day({
         data: {
-          day_No: `0_${i}`,
+          day_No: `${schedule_No}_${i}`,
           schedule: {
             connect: {
               schedule_No,
@@ -376,7 +375,7 @@ const Mutation = {
         }
       }
     }, info)
-  }
+  },
 };
 
 export { Mutation as default };
