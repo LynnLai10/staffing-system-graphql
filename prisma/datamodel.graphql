@@ -12,6 +12,7 @@ type User {
   hireDate: String!
   permanentStaff: Boolean!
   lastLogin: String
+  loginTime: String
 }
 
 type Schedule {

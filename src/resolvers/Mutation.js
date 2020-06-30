@@ -39,7 +39,7 @@ const Mutation = {
   },
   async login(parent, args, { prisma }, info) {
     const { employeeId, password } = args.data
-    let user = await prisma.query.user({
+    const oldUser = await prisma.query.user({
       where: {
         employeeId,
       },
@@ -55,15 +55,15 @@ const Mutation = {
       throw new Error("Unable to Login!");
     }
 
-    user = await prisma.mutation.updateUser({
+    const user = await prisma.mutation.updateUser({
       where: {
         employeeId
       },
       data: {
-        lastLogin: moment().format().toString()
+        loginTime: moment().format().toString(),
+        lastLogin: oldUser.loginTime
       }
     })
-    console.log(user)
     return {
       user,
       token: generateToken(user.employeeId),
@@ -231,7 +231,7 @@ const Mutation = {
         schedule_No,
       },
     });
-    //create schedule_day
+    //create schedule_dayƒ
     for (let i = 0; i < 14; i++) {
       await prisma.mutation.createSchedule_Day({
         data: {

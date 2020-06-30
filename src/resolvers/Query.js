@@ -113,6 +113,19 @@ const Query = {
       },
       info
     );
+  },
+  async mySchedule (parent, args, { prisma, request }, info) {
+    const employeeId = await getUserId(request);
+    return prisma.query.schedule_Staffs({
+      where: {
+        schedule: {
+          schedule_No: args.schedule_No
+        },
+        staff: {
+          employeeId
+        }
+      }
+    }, info)
   }
 };
 

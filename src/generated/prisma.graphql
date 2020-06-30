@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Mon Jun 29 2020 21:16:37 GMT+1000 (Australian Eastern Standard Time)
+# timestamp: Tue Jun 30 2020 21:34:32 GMT+1000 (Australian Eastern Standard Time)
 
 type AggregateFreetime {
   count: Int!
@@ -2049,6 +2049,7 @@ type User implements Node {
   hireDate: String!
   permanentStaff: Boolean!
   lastLogin: String
+  loginTime: String
 }
 
 """A connection to a list of items."""
@@ -2072,6 +2073,7 @@ input UserCreateInput {
   hireDate: String!
   permanentStaff: Boolean!
   lastLogin: String
+  loginTime: String
   freetimes: FreetimeCreateManyWithoutStaffInput
 }
 
@@ -2096,6 +2098,7 @@ input UserCreateWithoutFreetimesInput {
   hireDate: String!
   permanentStaff: Boolean!
   lastLogin: String
+  loginTime: String
 }
 
 """An edge in a connection."""
@@ -2132,6 +2135,8 @@ enum UserOrderByInput {
   permanentStaff_DESC
   lastLogin_ASC
   lastLogin_DESC
+  loginTime_ASC
+  loginTime_DESC
 }
 
 type UserPreviousValues {
@@ -2147,6 +2152,7 @@ type UserPreviousValues {
   hireDate: String!
   permanentStaff: Boolean!
   lastLogin: String
+  loginTime: String
 }
 
 type UserSubscriptionPayload {
@@ -2196,6 +2202,7 @@ input UserUpdateDataInput {
   hireDate: String
   permanentStaff: Boolean
   lastLogin: String
+  loginTime: String
   freetimes: FreetimeUpdateManyWithoutStaffInput
 }
 
@@ -2209,6 +2216,7 @@ input UserUpdateInput {
   hireDate: String
   permanentStaff: Boolean
   lastLogin: String
+  loginTime: String
   freetimes: FreetimeUpdateManyWithoutStaffInput
 }
 
@@ -2222,6 +2230,7 @@ input UserUpdateManyMutationInput {
   hireDate: String
   permanentStaff: Boolean
   lastLogin: String
+  loginTime: String
 }
 
 input UserUpdateOneInput {
@@ -2250,6 +2259,7 @@ input UserUpdateWithoutFreetimesDataInput {
   hireDate: String
   permanentStaff: Boolean
   lastLogin: String
+  loginTime: String
 }
 
 input UserUpsertNestedInput {
@@ -2643,6 +2653,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   lastLogin_not_ends_with: String
+  loginTime: String
+
+  """All values that are not equal to given value."""
+  loginTime_not: String
+
+  """All values that are contained in given list."""
+  loginTime_in: [String!]
+
+  """All values that are not contained in given list."""
+  loginTime_not_in: [String!]
+
+  """All values less than the given value."""
+  loginTime_lt: String
+
+  """All values less than or equal the given value."""
+  loginTime_lte: String
+
+  """All values greater than the given value."""
+  loginTime_gt: String
+
+  """All values greater than or equal the given value."""
+  loginTime_gte: String
+
+  """All values containing the given string."""
+  loginTime_contains: String
+
+  """All values not containing the given string."""
+  loginTime_not_contains: String
+
+  """All values starting with the given string."""
+  loginTime_starts_with: String
+
+  """All values not starting with the given string."""
+  loginTime_not_starts_with: String
+
+  """All values ending with the given string."""
+  loginTime_ends_with: String
+
+  """All values not ending with the given string."""
+  loginTime_not_ends_with: String
   freetimes_every: FreetimeWhereInput
   freetimes_some: FreetimeWhereInput
   freetimes_none: FreetimeWhereInput
