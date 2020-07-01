@@ -5,6 +5,7 @@ type User {
   name: String!
   password: String!
   sex: String!
+  position: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   useDefaultFreetime: Boolean
