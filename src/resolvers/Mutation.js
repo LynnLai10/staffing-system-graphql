@@ -45,11 +45,11 @@ const Mutation = {
       },
     });
 
-    if (!user) {
+    if (!oldUser) {
       throw new Error("Unable to Login!");
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, oldUser.password);
 
     if (!isMatch) {
       throw new Error("Unable to Login!");
