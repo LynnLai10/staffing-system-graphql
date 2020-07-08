@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node dist/index.js ",
+    "heroku-postbuild": "babel src --out-dir dist --copy-files",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
     "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
   },
@@ -13,7 +14,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@babel/polyfill": "^7.10.4",
+    "@babel/polyfill": "^7.0.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
