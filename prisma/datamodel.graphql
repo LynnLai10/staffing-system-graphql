@@ -57,3 +57,12 @@ type Schedule_Interval {
   start: String!
   end: String!
 }
+
+type Item {
+  id: ID! @id
+  description_en: String!
+  description_cn: String!
+  popularity: Int!
+  category: String!
+  fileKeys: String
+}

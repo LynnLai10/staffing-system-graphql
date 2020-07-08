@@ -1,14 +1,11 @@
-import moment from 'moment'
+import moment from "moment";
 import bcrypt from "bcryptjs";
-import hashPassword from "../utils/hashPassword";
-import generateToken from "../utils/generateToken";
-import getUserId from "../utils/getUserId";
+import hashPassword from "../utils/hashPassword.js";
+import generateToken from "../utils/generateToken.js";
+import getUserId from "../utils/getUserId.js";
 
 const Mutation = {
   async createUser(parent, args, { prisma, request }, info) {
-    if (args.auth !== "Eg80949597") {
-      throw new Error("Authentication required.");
-    }
     const employeeId = getUserId(request);
     const user = await prisma.query.user(
       {
@@ -38,7 +35,7 @@ const Mutation = {
     }
   },
   async login(parent, args, { prisma }, info) {
-    const { employeeId, password } = args.data
+    const { employeeId, password } = args.data;
     const oldUser = await prisma.query.user({
       where: {
         employeeId,
@@ -57,13 +54,13 @@ const Mutation = {
 
     const user = await prisma.mutation.updateUser({
       where: {
-        employeeId
+        employeeId,
       },
       data: {
         loginTime: moment().format().toString(),
-        lastLogin: oldUser.loginTime
-      }
-    })
+        lastLogin: oldUser.loginTime,
+      },
+    });
     return {
       user,
       token: generateToken(user.employeeId),
@@ -205,16 +202,19 @@ const Mutation = {
   async deleteFreetimes(parent, args, { prisma, request }, info) {
     const employeeId = getUserId(request);
     if (employeeId) {
-      return prisma.mutation.updateManyFreetimes({
-        where: {
-          schedule: {
-            schedule_No: args.schedule_No
-          }
+      return prisma.mutation.updateManyFreetimes(
+        {
+          where: {
+            schedule: {
+              schedule_No: args.schedule_No,
+            },
+          },
+          data: {
+            availability: "full",
+          },
         },
-        data: {
-          availability: "full"
-        }
-      }, info);
+        info
+      );
     } else {
       throw new Error("Permission denied.");
     }
@@ -224,7 +224,7 @@ const Mutation = {
 
   async createSchedule(parent, args, { prisma, request }, info) {
     let count = 0;
-    const { schedule_No } = args
+    const { schedule_No } = args;
     //create schedule
     await prisma.mutation.createSchedule({
       data: {
@@ -379,13 +379,90 @@ const Mutation = {
     return { count: 0 };
   },
   deleteSchedule_Staffs(parent, args, { prisma, request }, info) {
-    return prisma.mutation.deleteManySchedule_Staffs({
-      where: {
-        schedule: {
-          schedule_No: args.schedule_No
-        }
+    return prisma.mutation.deleteManySchedule_Staffs(
+      {
+        where: {
+          schedule: {
+            schedule_No: args.schedule_No,
+          },
+        },
+      },
+      info
+    );
+  },
+
+  //---------------------------  Item ----------------------------//
+
+  async createItem(parent, args, { prisma, request }, info) {
+    const employeeId = getUserId(request);
+    const user = await prisma.query.user(
+      {
+        where: {
+          employeeId,
+        },
+      },
+      "{ accountType }"
+    );
+    if (user.accountType === "Admin") {
+      const isExist = await prisma.exists.Item({
+        description_en: args.data.description_en,
+      });
+      if (isExist) {
+        throw new Error("description taken!");
       }
-    }, info)
+      return prisma.mutation.createItem({
+        data: args.data,
+      });
+    } else {
+      throw new Error("Permission denied.");
+    }
+  },
+  async updateItem(parent, args, { prisma, request }, info) {
+    const employeeId = getUserId(request);
+    const user = await prisma.query.user(
+      {
+        where: {
+          employeeId,
+        },
+      },
+      "{ accountType }"
+    );
+    if (user.accountType === "Admin") {
+      return prisma.mutation.updateItem(
+        {
+          where: {
+            id: args.id,
+          },
+          data: args.data,
+        },
+        info
+      );
+    } else {
+      throw new Error("Permission denied.");
+    }
+  },
+  async deleteItem(parent, args, { prisma, request }, info) {
+    const employeeId = getUserId(request);
+    const user = await prisma.query.user(
+      {
+        where: {
+          employeeId,
+        },
+      },
+      "{ accountType }"
+    );
+    if (user.accountType === "Admin") {
+      return prisma.mutation.deleteItem(
+        {
+          where: {
+            id: args.id,
+          },
+        },
+        info
+      );
+    } else {
+      throw new Error("Permission denied.");
+    }
   },
 };
 

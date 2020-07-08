@@ -1,7 +1,11 @@
 # source: http://localhost:4466
-# timestamp: Wed Jul 01 2020 15:15:55 GMT+1000 (Australian Eastern Standard Time)
+# timestamp: Sun Jul 05 2020 20:37:39 GMT+1000 (Australian Eastern Standard Time)
 
 type AggregateFreetime {
+  count: Int!
+}
+
+type AggregateItem {
   count: Int!
 }
 
@@ -544,6 +548,357 @@ input FreetimeWhereUniqueInput {
   id: ID
 }
 
+type Item implements Node {
+  id: ID!
+  description_en: String!
+  description_cn: String!
+  popularity: Int!
+  category: String!
+  fileKeys: String
+}
+
+"""A connection to a list of items."""
+type ItemConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ItemEdge]!
+  aggregate: AggregateItem!
+}
+
+input ItemCreateInput {
+  id: ID
+  description_en: String!
+  description_cn: String!
+  popularity: Int!
+  category: String!
+  fileKeys: String
+}
+
+"""An edge in a connection."""
+type ItemEdge {
+  """The item at the end of the edge."""
+  node: Item!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ItemOrderByInput {
+  id_ASC
+  id_DESC
+  description_en_ASC
+  description_en_DESC
+  description_cn_ASC
+  description_cn_DESC
+  popularity_ASC
+  popularity_DESC
+  category_ASC
+  category_DESC
+  fileKeys_ASC
+  fileKeys_DESC
+}
+
+type ItemPreviousValues {
+  id: ID!
+  description_en: String!
+  description_cn: String!
+  popularity: Int!
+  category: String!
+  fileKeys: String
+}
+
+type ItemSubscriptionPayload {
+  mutation: MutationType!
+  node: Item
+  updatedFields: [String!]
+  previousValues: ItemPreviousValues
+}
+
+input ItemSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ItemSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ItemSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ItemSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ItemWhereInput
+}
+
+input ItemUpdateInput {
+  description_en: String
+  description_cn: String
+  popularity: Int
+  category: String
+  fileKeys: String
+}
+
+input ItemUpdateManyMutationInput {
+  description_en: String
+  description_cn: String
+  popularity: Int
+  category: String
+  fileKeys: String
+}
+
+input ItemWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ItemWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ItemWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ItemWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  description_en: String
+
+  """All values that are not equal to given value."""
+  description_en_not: String
+
+  """All values that are contained in given list."""
+  description_en_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_en_not_in: [String!]
+
+  """All values less than the given value."""
+  description_en_lt: String
+
+  """All values less than or equal the given value."""
+  description_en_lte: String
+
+  """All values greater than the given value."""
+  description_en_gt: String
+
+  """All values greater than or equal the given value."""
+  description_en_gte: String
+
+  """All values containing the given string."""
+  description_en_contains: String
+
+  """All values not containing the given string."""
+  description_en_not_contains: String
+
+  """All values starting with the given string."""
+  description_en_starts_with: String
+
+  """All values not starting with the given string."""
+  description_en_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_en_ends_with: String
+
+  """All values not ending with the given string."""
+  description_en_not_ends_with: String
+  description_cn: String
+
+  """All values that are not equal to given value."""
+  description_cn_not: String
+
+  """All values that are contained in given list."""
+  description_cn_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_cn_not_in: [String!]
+
+  """All values less than the given value."""
+  description_cn_lt: String
+
+  """All values less than or equal the given value."""
+  description_cn_lte: String
+
+  """All values greater than the given value."""
+  description_cn_gt: String
+
+  """All values greater than or equal the given value."""
+  description_cn_gte: String
+
+  """All values containing the given string."""
+  description_cn_contains: String
+
+  """All values not containing the given string."""
+  description_cn_not_contains: String
+
+  """All values starting with the given string."""
+  description_cn_starts_with: String
+
+  """All values not starting with the given string."""
+  description_cn_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_cn_ends_with: String
+
+  """All values not ending with the given string."""
+  description_cn_not_ends_with: String
+  popularity: Int
+
+  """All values that are not equal to given value."""
+  popularity_not: Int
+
+  """All values that are contained in given list."""
+  popularity_in: [Int!]
+
+  """All values that are not contained in given list."""
+  popularity_not_in: [Int!]
+
+  """All values less than the given value."""
+  popularity_lt: Int
+
+  """All values less than or equal the given value."""
+  popularity_lte: Int
+
+  """All values greater than the given value."""
+  popularity_gt: Int
+
+  """All values greater than or equal the given value."""
+  popularity_gte: Int
+  category: String
+
+  """All values that are not equal to given value."""
+  category_not: String
+
+  """All values that are contained in given list."""
+  category_in: [String!]
+
+  """All values that are not contained in given list."""
+  category_not_in: [String!]
+
+  """All values less than the given value."""
+  category_lt: String
+
+  """All values less than or equal the given value."""
+  category_lte: String
+
+  """All values greater than the given value."""
+  category_gt: String
+
+  """All values greater than or equal the given value."""
+  category_gte: String
+
+  """All values containing the given string."""
+  category_contains: String
+
+  """All values not containing the given string."""
+  category_not_contains: String
+
+  """All values starting with the given string."""
+  category_starts_with: String
+
+  """All values not starting with the given string."""
+  category_not_starts_with: String
+
+  """All values ending with the given string."""
+  category_ends_with: String
+
+  """All values not ending with the given string."""
+  category_not_ends_with: String
+  fileKeys: String
+
+  """All values that are not equal to given value."""
+  fileKeys_not: String
+
+  """All values that are contained in given list."""
+  fileKeys_in: [String!]
+
+  """All values that are not contained in given list."""
+  fileKeys_not_in: [String!]
+
+  """All values less than the given value."""
+  fileKeys_lt: String
+
+  """All values less than or equal the given value."""
+  fileKeys_lte: String
+
+  """All values greater than the given value."""
+  fileKeys_gt: String
+
+  """All values greater than or equal the given value."""
+  fileKeys_gte: String
+
+  """All values containing the given string."""
+  fileKeys_contains: String
+
+  """All values not containing the given string."""
+  fileKeys_not_contains: String
+
+  """All values starting with the given string."""
+  fileKeys_starts_with: String
+
+  """All values not starting with the given string."""
+  fileKeys_not_starts_with: String
+
+  """All values ending with the given string."""
+  fileKeys_ends_with: String
+
+  """All values not ending with the given string."""
+  fileKeys_not_ends_with: String
+}
+
+input ItemWhereUniqueInput {
+  id: ID
+}
+
 """Raw JSON value"""
 scalar Json
 
@@ -558,36 +913,42 @@ type Mutation {
   createFreetime(data: FreetimeCreateInput!): Freetime!
   createSchedule_Day(data: Schedule_DayCreateInput!): Schedule_Day!
   createSchedule_Staff(data: Schedule_StaffCreateInput!): Schedule_Staff!
+  createItem(data: ItemCreateInput!): Item!
   createUser(data: UserCreateInput!): User!
   createSchedule_Interval(data: Schedule_IntervalCreateInput!): Schedule_Interval!
   updateSchedule(data: ScheduleUpdateInput!, where: ScheduleWhereUniqueInput!): Schedule
   updateFreetime(data: FreetimeUpdateInput!, where: FreetimeWhereUniqueInput!): Freetime
   updateSchedule_Day(data: Schedule_DayUpdateInput!, where: Schedule_DayWhereUniqueInput!): Schedule_Day
   updateSchedule_Staff(data: Schedule_StaffUpdateInput!, where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
+  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSchedule_Interval(data: Schedule_IntervalUpdateInput!, where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
   deleteSchedule(where: ScheduleWhereUniqueInput!): Schedule
   deleteFreetime(where: FreetimeWhereUniqueInput!): Freetime
   deleteSchedule_Day(where: Schedule_DayWhereUniqueInput!): Schedule_Day
   deleteSchedule_Staff(where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
+  deleteItem(where: ItemWhereUniqueInput!): Item
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSchedule_Interval(where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
   upsertSchedule(where: ScheduleWhereUniqueInput!, create: ScheduleCreateInput!, update: ScheduleUpdateInput!): Schedule!
   upsertFreetime(where: FreetimeWhereUniqueInput!, create: FreetimeCreateInput!, update: FreetimeUpdateInput!): Freetime!
   upsertSchedule_Day(where: Schedule_DayWhereUniqueInput!, create: Schedule_DayCreateInput!, update: Schedule_DayUpdateInput!): Schedule_Day!
   upsertSchedule_Staff(where: Schedule_StaffWhereUniqueInput!, create: Schedule_StaffCreateInput!, update: Schedule_StaffUpdateInput!): Schedule_Staff!
+  upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSchedule_Interval(where: Schedule_IntervalWhereUniqueInput!, create: Schedule_IntervalCreateInput!, update: Schedule_IntervalUpdateInput!): Schedule_Interval!
   updateManySchedules(data: ScheduleUpdateManyMutationInput!, where: ScheduleWhereInput): BatchPayload!
   updateManyFreetimes(data: FreetimeUpdateManyMutationInput!, where: FreetimeWhereInput): BatchPayload!
   updateManySchedule_Days(data: Schedule_DayUpdateManyMutationInput!, where: Schedule_DayWhereInput): BatchPayload!
   updateManySchedule_Staffs(data: Schedule_StaffUpdateManyMutationInput!, where: Schedule_StaffWhereInput): BatchPayload!
+  updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManySchedule_Intervals(data: Schedule_IntervalUpdateManyMutationInput!, where: Schedule_IntervalWhereInput): BatchPayload!
   deleteManySchedules(where: ScheduleWhereInput): BatchPayload!
   deleteManyFreetimes(where: FreetimeWhereInput): BatchPayload!
   deleteManySchedule_Days(where: Schedule_DayWhereInput): BatchPayload!
   deleteManySchedule_Staffs(where: Schedule_StaffWhereInput): BatchPayload!
+  deleteManyItems(where: ItemWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySchedule_Intervals(where: Schedule_IntervalWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
@@ -629,18 +990,21 @@ type Query {
   freetimes(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Freetime]!
   schedule_Days(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Day]!
   schedule_Staffs(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Staff]!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   schedule_Intervals(where: Schedule_IntervalWhereInput, orderBy: Schedule_IntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Schedule_Interval]!
   schedule(where: ScheduleWhereUniqueInput!): Schedule
   freetime(where: FreetimeWhereUniqueInput!): Freetime
   schedule_Day(where: Schedule_DayWhereUniqueInput!): Schedule_Day
   schedule_Staff(where: Schedule_StaffWhereUniqueInput!): Schedule_Staff
+  item(where: ItemWhereUniqueInput!): Item
   user(where: UserWhereUniqueInput!): User
   schedule_Interval(where: Schedule_IntervalWhereUniqueInput!): Schedule_Interval
   schedulesConnection(where: ScheduleWhereInput, orderBy: ScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ScheduleConnection!
   freetimesConnection(where: FreetimeWhereInput, orderBy: FreetimeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FreetimeConnection!
   schedule_DaysConnection(where: Schedule_DayWhereInput, orderBy: Schedule_DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_DayConnection!
   schedule_StaffsConnection(where: Schedule_StaffWhereInput, orderBy: Schedule_StaffOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_StaffConnection!
+  itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   schedule_IntervalsConnection(where: Schedule_IntervalWhereInput, orderBy: Schedule_IntervalOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Schedule_IntervalConnection!
 
@@ -2031,6 +2395,7 @@ type Subscription {
   freetime(where: FreetimeSubscriptionWhereInput): FreetimeSubscriptionPayload
   schedule_Day(where: Schedule_DaySubscriptionWhereInput): Schedule_DaySubscriptionPayload
   schedule_Staff(where: Schedule_StaffSubscriptionWhereInput): Schedule_StaffSubscriptionPayload
+  item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   schedule_Interval(where: Schedule_IntervalSubscriptionWhereInput): Schedule_IntervalSubscriptionPayload
 }

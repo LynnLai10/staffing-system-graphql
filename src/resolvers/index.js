@@ -1,8 +1,8 @@
 // import { extractFragmentReplacements } from 'prisma-binding'
-import Query from './Query'
-import Mutation from './Mutation'
-import Schedule from './Schedule'
-import Freetime from './Freetime'
+import Query from './Query.js'
+import Mutation from './Mutation.js'
+import Schedule from './Schedule.js'
+import Freetime from './Freetime.js'
 
 const resolvers = {
     Query,

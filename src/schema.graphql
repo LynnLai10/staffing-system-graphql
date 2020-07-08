@@ -1,4 +1,4 @@
-# import UserOrderByInput FreetimeOrderByInput Schedule_DayOrderByInput from './generated/prisma.graphql'
+# import UserOrderByInput FreetimeOrderByInput Schedule_DayOrderByInput ItemOrderByInput from './generated/prisma.graphql'
 
 type Query {
   users(query: String, orderBy: UserOrderByInput): [User]
@@ -7,11 +7,12 @@ type Query {
   myFreetimes(schedule_No: String!): [Freetime]
   schedule(schedule_No: String!): Schedule
   mySchedule(schedule_No: String!): [Schedule_Staff]
+  items(category: String, first: Int, skip: Int, orderBy: String): ItemsQuery
 }
 
 type Mutation {
-  createUser(auth: String!, data: CreateUserInput!): User
-  updateUser(employeeId: String, data: UpdateUserInput!): User
+  createUser(data: CreateUserInput!): User
+  updateUser(employeeId: String!, data: UpdateUserInput!): User
   deleteUser(employeeId: String!): User
   changePassword(employeeId: String!, data: ChangePasswordInput!): User
   login(data: LoginInput!): AuthPayload
@@ -25,6 +26,10 @@ type Mutation {
 
   updateSchedule_Staffs(oldStaffs: [UpdateSchedule_StaffsInput], newStaffs: [UpdateSchedule_StaffsInput]): Aggregate
   deleteSchedule_Staffs(schedule_No: String!): Aggregate
+
+  createItem(data: CreateItemInput!): Item
+  updateItem(id: ID!, data: UpdateItemInput!): Item
+  deleteItem(id: ID!): Item
 }
 
 type Aggregate {
@@ -36,6 +41,10 @@ type AuthPayload {
   user: User!
 }
 
+type ItemsQuery {
+  items: [Item]
+  count: Int! 
+}
 input CreateUserInput {
   accountType: String!
   employeeId: String!
@@ -76,6 +85,22 @@ input UpdateSchedule_StaffsInput {
   employeeId: String
   position: String
   interval_No: String
+}
+
+input CreateItemInput {
+  description_en: String!
+  description_cn: String!
+  popularity: Int!
+  category: String!
+  fileKeys: String!
+}
+
+input UpdateItemInput {
+  description_en: String
+  description_cn: String
+  popularity: Int
+  category: String!
+  fileKeys: String
 }
 
 type User {
@@ -140,4 +165,13 @@ type Schedule_Interval {
   interval_No: String!
   start: String!
   end: String!
+}
+
+type Item {
+  id: ID!
+  description_en: String!
+  description_cn: String!
+  popularity: Int!
+  category: String!
+  fileKeys: String!
 }
