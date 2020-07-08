@@ -1,4 +1,4 @@
-import "@babel/polyfill/noconflict";
+import "@babel/polyfill";
 import express from 'express'
 import server from "./graphqlServer.js";
 import multer from "multer";
