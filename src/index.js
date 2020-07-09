@@ -6,7 +6,7 @@ import sharp from "sharp";
 const fs = require("fs");
 const path = require("path");
 const imgPath = (category) =>
-  path.join(__dirname, `./public/img/${category}`);
+  path.join(__dirname, `../public/img/${category}`);
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
@@ -16,6 +16,7 @@ const upload = multer({
 });
 
 server.express.use(express.static('public'))
+
 server.express.all('*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", process.env.CLIENT_ENDPOINT)
   next()
