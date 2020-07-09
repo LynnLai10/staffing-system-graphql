@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/index.js ",
     "heroku-postbuild": "babel src --out-dir dist --copy-files",
-    "dev": "npm run heroku-postbuild && env-cmd -f ./config/dev.env nodemon dist/index.js --ext js,graphql",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
+    "build-mode": "npm run heroku-postbuild && env-cmd -f ./config/dev.env nodemon dist/index.js --ext js,graphql",
     "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.10.4",
     "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
