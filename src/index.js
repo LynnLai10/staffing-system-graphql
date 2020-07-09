@@ -1,4 +1,3 @@
-import "@babel/polyfill/noconflict";
 import express from 'express'
 import server from "./graphqlServer.js";
 import multer from "multer";
@@ -60,13 +59,6 @@ server.express.delete(
     res.send();
   }
 );
-
-if (process.env.NODE_ENV === 'production') {
-  server.express.use(server.express.static('client/bulid'))
-  server.express.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'bulid', 'index.html'))
-  })
-}
 
 server.start({ port: process.env.PORT || 4000 }, () => {
   console.log("The server is up.");
