@@ -48,11 +48,15 @@ server.express.post(
   }
 );
 
+server.express.get('/checkout/:category/:fileName', (req,res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'img', req.params.category, req.params.fileName))
+})
+
 server.express.delete(
   "/checkout/delete/:category/:fileName",
   async (req, res) => {
     fs.unlink(
-      path.join(imgPath(req.params.category), `${req.params.fileName}`),
+      path.join(imgPath(req.params.category), req.params.fileName),
       (err) => {
         if (err) throw err;
       }
