@@ -64,5 +64,5 @@ type Item {
   description_cn: String!
   popularity: Int!
   category: String!
-  fileKeys: String
+  URLs: String
 }

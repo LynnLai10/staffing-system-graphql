@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import server from "./graphqlServer.js";
 import AWS from "aws-sdk"
 import multer from "multer";
@@ -7,7 +8,7 @@ const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_SECRET
 })
-const path = require("path");
+
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
@@ -25,11 +26,7 @@ server.express.post(
   "/checkout/:category",
   upload.array("checkout", 3),
   async (req, res) => {
-    //find the fileKeys based on the originalName
-    const index = req.body.originalName
-      .split(",")
-      .findIndex((item) => item === req.files[0].originalname);
-    //resize and rename by id + fileKeys
+    //resize
     sharp(req.files[0].buffer)
       .resize({
         width: 150,
@@ -39,7 +36,7 @@ server.express.post(
       })
       .toBuffer().then(data => {
         const originalName = req.files[0].originalname.split('.')
-        const fileName = req.body.fileKeys.split(",")[index] + '.' + originalName[originalName.length-1]
+        const fileName = uuidv4() + '.' + originalName[originalName.length-1]
         const params = {
           Bucket: process.env.AWS_BUCKET_NAME,
           Key: `${req.params.category}/${fileName}`,
@@ -60,13 +57,16 @@ server.express.post(
 server.express.delete(
   "/checkout/delete/:category/:fileName",
   async (req, res) => {
-    fs.unlink(
-      path.join(imgPath(req.params.category), req.params.fileName),
-      (err) => {
-        if (err) throw err;
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `${req.params.category}/${req.params.fileName}`,
+    }
+    s3.deleteObject(params, (err, data) => {
+      if (err) {
+        res.status(500).send(err)
       }
-    );
-    res.status(200).send();
+      res.status(200).send(data)
+    })
   }
 );
 
