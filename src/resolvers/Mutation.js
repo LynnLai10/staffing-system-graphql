@@ -139,15 +139,27 @@ const Mutation = {
     });
 
     if (employeeId && !isFreetimesExist) {
-      const isSchedule_NoExist = await prisma.exists.Schedule({
+      const isSchedule_No_Exist = await prisma.exists.Schedule({
         schedule_No,
       });
-      if (!isSchedule_NoExist) {
+      if (!isSchedule_No_Exist) {
         await prisma.mutation.createSchedule({
           data: {
             schedule_No,
           },
         });
+        for (let i = 0; i < 14; i++) {
+          await prisma.mutation.createSchedule_Day({
+            data: {
+              day_No: `${schedule_No}_${i}`,
+              schedule: {
+                connect: {
+                  schedule_No,
+                },
+              },
+            },
+          });
+        }
       }
 
       let count = 0;
@@ -231,7 +243,7 @@ const Mutation = {
         schedule_No,
       },
     });
-    //create schedule_dayƒ
+    //create schedule_day
     for (let i = 0; i < 14; i++) {
       await prisma.mutation.createSchedule_Day({
         data: {
