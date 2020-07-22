@@ -37,7 +37,6 @@ const Query = {
     const defaultFreetimes = await prisma.query.freetimes(
       {
         where: {
-          availability_not: "no",
           schedule: {
             schedule_No: "0",
           },
@@ -59,7 +58,6 @@ const Query = {
     const nextFreetimes = await prisma.query.freetimes(
       {
         where: {
-          availability_not: "no",
           schedule: {
             schedule_No: args.schedule_No,
           },
